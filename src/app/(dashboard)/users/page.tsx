@@ -1,6 +1,6 @@
 "use client";
 import { PaginatedTable } from "@/components/PaginatedTable";
-import { TableCell } from "@mui/material";
+import { PersonRow } from "@/components/PersonRow";
 
 const people = [
   { id: 1, name: "Alice Smith", email: "alice@example.com" },
@@ -19,12 +19,7 @@ export default function UsersPage() {
       title="Users"
       columns={columns}
       data={people}
-      renderRow={(person) => (
-        <>
-          <TableCell>{person.name}</TableCell>
-          <TableCell>{person.email}</TableCell>
-        </>
-      )}
+      renderRow={(person) => <PersonRow person={person} />}
     />
   );
 }

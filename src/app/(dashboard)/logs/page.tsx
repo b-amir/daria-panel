@@ -1,6 +1,6 @@
 "use client";
 import { PaginatedTable } from "@/components/PaginatedTable";
-import { TableCell } from "@mui/material";
+import { LogRow } from "@/components/LogRow";
 
 const logs = [
   { id: 1, user: "Alice Smith", event: "login", time: "2024-06-01 10:00" },
@@ -20,13 +20,7 @@ export default function LogsPage() {
       title="Logs"
       columns={columns}
       data={logs}
-      renderRow={(log) => (
-        <>
-          <TableCell>{log.user}</TableCell>
-          <TableCell>{log.event}</TableCell>
-          <TableCell>{log.time}</TableCell>
-        </>
-      )}
+      renderRow={(log) => <LogRow log={log} />}
     />
   );
 }

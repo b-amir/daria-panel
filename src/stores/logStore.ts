@@ -23,6 +23,7 @@ interface LogState {
   queuedLogs: QueuedLog[];
 
   addOptimisticLog: (user: string, event: string, details?: string) => void;
+  logPageVisit: (username: string, pathname: string) => void;
 }
 
 export const useLogStore = create<LogState>()(
@@ -95,6 +96,22 @@ export const useLogStore = create<LogState>()(
         };
 
         sendLog();
+      },
+
+      logPageVisit: (username: string, pathname: string) => {
+        const getPageName = (path: string) => {
+          const segments = path.split("/").filter(Boolean);
+          return segments[segments.length - 1] || "home";
+        };
+
+        const pageName = getPageName(pathname);
+
+        const { addOptimisticLog } = useLogStore.getState();
+        addOptimisticLog(
+          username,
+          `page_visit: ${pageName}`,
+          `Visited ${pathname}`
+        );
       },
     }),
     {

@@ -1,11 +1,11 @@
 "use client";
-import { VirtualTable } from "@/components/VirtualTable";
-import { PersonRow } from "@/components/PersonRow";
+import { VirtualTable } from "@/components/table/VirtualTable";
+import { PersonRow } from "@/components/table/PersonRow";
 import { LoadingState } from "@/components/ui/LoadingState";
 import { ErrorState } from "@/components/ui/ErrorState";
 import { useOptimizedUsers } from "@/hooks/useOptimizedUsers";
-import { USERS_TABLE_COLUMNS } from "@/constants/table-configs";
-import { COMMON_STYLES } from "@/constants/styles";
+import { USERS_TABLE_COLUMNS } from "@/constants/tableConfigs";
+import { COMMON_STYLES } from "@/constants/commonStyles";
 
 export default function UsersPage() {
   const {
@@ -19,7 +19,7 @@ export default function UsersPage() {
   } = useOptimizedUsers();
 
   if (isLoading) {
-    return <LoadingState message="Loading users..." />;
+    return <LoadingState message="Loading users" />;
   }
 
   if (error) {

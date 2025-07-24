@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { navItems } from "../constants/navItems";
+import { navItems } from "../../constants/navItems";
 import { FaChevronRight } from "react-icons/fa";
 
 export function SidebarNav() {

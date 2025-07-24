@@ -2,7 +2,7 @@
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useMemo } from "react";
 import { LogEntry } from "@/services/logs.service";
-import { QUERY_KEYS } from "@/constants/query-keys";
+import { QUERY_KEYS } from "@/constants/queryKeys";
 
 interface LogsResponse {
   logs: LogEntry[];

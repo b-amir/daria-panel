@@ -2,7 +2,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useCallback } from "react";
 import { fetchUsers } from "@/services/users.service";
-import { QUERY_KEYS } from "@/constants/query-keys";
+import { QUERY_KEYS } from "@/constants/queryKeys";
 
 export function useOptimizedUsers() {
   const {

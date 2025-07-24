@@ -3,7 +3,7 @@ import { useEffect, useState, useMemo } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
 import { getUsernameFromCookies } from "@/utils/cookies";
-import { QUERY_KEYS } from "@/constants/query-keys";
+import { QUERY_KEYS } from "@/constants/queryKeys";
 import { usePageVisitLogger } from "./usePageVisitLogger";
 
 export function useOptimizedAuth() {

@@ -1,6 +1,6 @@
 import Image from "next/image";
-import { SidebarNav } from "@/components/SidebarNav";
-import { UserBox } from "@/components/UserBox";
+import { SidebarNav } from "@/components/sidebar/SidebarNav";
+import { UserBox } from "@/components/sidebar/UserBox";
 import { cookies } from "next/headers";
 
 export async function Sidebar() {

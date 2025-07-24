@@ -1,3 +1,5 @@
+import { CircularProgress } from "@mui/material";
+
 interface LoadingStateProps {
   message?: string;
   className?: string;
@@ -5,11 +7,14 @@ interface LoadingStateProps {
 
 export function LoadingState({
   message = "Loading...",
-  className = "flex items-center justify-center p-8 h-full",
+  className = "flex items-center justify-center min-h-screen",
 }: LoadingStateProps) {
   return (
     <div className={className}>
-      <div className="text-lg text-gray-700">{message}</div>
+      <div className="flex flex-col items-center gap-4">
+        <CircularProgress className="text-accent" />
+        <div className="text-lg text-gray-700">{message}</div>
+      </div>
     </div>
   );
 }

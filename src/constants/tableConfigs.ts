@@ -4,6 +4,8 @@ export type Column = {
   width?: string;
 };
 
+export const ROW_HEIGHT = 48;
+
 export const LOGS_TABLE_COLUMNS: Column[] = [
   { id: "user", label: "User", width: "20%" },
   { id: "event", label: "Event", width: "40%" },

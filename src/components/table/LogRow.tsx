@@ -1,11 +1,11 @@
 import { memo } from "react";
 import { LogEntry } from "@/services/logs.service";
 import { formatDateTime, formatDateOnly } from "@/utils/formatters";
-import { COMMON_STYLES } from "@/constants/styles";
+import { COMMON_STYLES } from "@/constants/commonStyles";
 import {
   LOGS_TABLE_COLUMNS,
   getFlexClassFromWidth,
-} from "@/constants/table-configs";
+} from "@/constants/tableConfigs";
 
 interface LogRowProps {
   log: LogEntry;

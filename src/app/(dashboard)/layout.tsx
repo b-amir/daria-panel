@@ -1,4 +1,4 @@
-import { Sidebar } from "@/components/Sidebar";
+import { Sidebar } from "@/components/sidebar/Sidebar";
 import { DashboardClientWrapper } from "@/components/DashboardClientWrapper";
 
 export default async function DashboardLayout({

@@ -1,11 +1,11 @@
 import { memo } from "react";
 import { User } from "@/services/users.service";
 import { formatPhoneForMobile } from "@/utils/formatters";
-import { COMMON_STYLES } from "@/constants/styles";
+import { COMMON_STYLES } from "@/constants/commonStyles";
 import {
   USERS_TABLE_COLUMNS,
   getFlexClassFromWidth,
-} from "@/constants/table-configs";
+} from "@/constants/tableConfigs";
 
 interface PersonRowProps {
   person: User;

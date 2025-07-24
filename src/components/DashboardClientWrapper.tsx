@@ -1,6 +1,6 @@
 "use client";
 import { memo } from "react";
-import { useOptimizedAuth } from "@/hooks/useOptimizedAuth";
+import { useAuthState } from "@/hooks/useAuth";
 
 interface DashboardClientWrapperProps {
   children: React.ReactNode;
@@ -8,7 +8,7 @@ interface DashboardClientWrapperProps {
 
 export const DashboardClientWrapper = memo<DashboardClientWrapperProps>(
   ({ children }) => {
-    useOptimizedAuth();
+    useAuthState();
 
     return <>{children}</>;
   }

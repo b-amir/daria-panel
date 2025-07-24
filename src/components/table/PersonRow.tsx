@@ -21,7 +21,7 @@ export const PersonRow = memo<PersonRowProps>(({ person }) => {
         className={`flex-1 ${COMMON_STYLES.tableCell.base} ${COMMON_STYLES.tableCell.text.sm}`}
       >
         <span
-          className={`${COMMON_STYLES.tableCell.colors.link} ${COMMON_STYLES.tableCell.responsive.breakAll}`}
+          className={`${COMMON_STYLES.tableCell.colors.muted} ${COMMON_STYLES.tableCell.responsive.breakAll}`}
         >
           {person.email}
         </span>

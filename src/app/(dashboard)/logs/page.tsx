@@ -4,7 +4,7 @@ import { LogRow } from "@/components/table/LogRow";
 import { LoadingState } from "@/components/ui/LoadingState";
 import { ErrorState } from "@/components/ui/ErrorState";
 import { PageHeader } from "@/components/ui/PageHeader";
-import { useOptimizedLogs } from "@/hooks/useOptimizedLogs";
+import { useLogs } from "@/hooks/useLogs";
 import { LOGS_TABLE_COLUMNS } from "@/constants/tableConfigs";
 import { COMMON_STYLES } from "@/constants/commonStyles";
 
@@ -17,7 +17,7 @@ export default function LogsPage() {
     hasNextPage,
     isNextPageLoading,
     loadNextPage,
-  } = useOptimizedLogs();
+  } = useLogs();
 
   if (isLoading) {
     return <LoadingState message="Loading logs" />;
@@ -28,10 +28,10 @@ export default function LogsPage() {
   }
 
   return (
-    <div className={COMMON_STYLES.fullHeightFlex}>
+    <div className={`${COMMON_STYLES.fullHeightFlex} h-screen`}>
       <PageHeader title="Logs" />
 
-      <div className={`flex-1 ${COMMON_STYLES.sectionSpacing} overflow-hidden`}>
+      <div className={`flex-1 overflow-hidden`}>
         <VirtualTable
           title=""
           columns={LOGS_TABLE_COLUMNS}

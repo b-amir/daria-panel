@@ -20,12 +20,12 @@ export const TableHeader = ({ title }: { title: string }) => {
 };
 
 export const TableColumnHeaders = ({ columns }: { columns: Column[] }) => (
-  <div className="flex-shrink-0">
-    <div className="flex items-center bg-gray-100 shadow-inner border-b border-gray-200">
+  <div className="flex-shrink-0 -mt-[1px]">
+    <div className="flex items-center bg-gray-100 shadow-inner border-b border-gray-300">
       {columns.map((column) => (
         <div
           key={column.id}
-          className={`flex-1 ${COMMON_STYLES.tableCell.base} uppercase font-bold text-xs text-gray-500 h-12`}
+          className={`flex-1 ${COMMON_STYLES.tableCell.base} uppercase font-bold text-xs text-gray-500 ${COMMON_STYLES.heights.tableColumnHeader}`}
         >
           <span className="hidden sm:inline">{column.label}</span>
           <span className="sm:hidden">{column.label.slice(0, 3)}</span>
@@ -44,7 +44,9 @@ export const TableFooter = ({
   totalCount: number;
   isLoading: boolean;
 }) => (
-  <div className="flex-shrink-0 p-2 bg-gray-50 border-t border-gray-300">
+  <div
+    className={`flex-shrink-0 p-2 px-4 bg-gray-100 shadow-sm border-t border-gray-300 flex items-center ${COMMON_STYLES.heights.tableFooter}`}
+  >
     <Typography variant="caption" className="text-gray-600 text-xs md:text-sm">
       Showing {dataLength} of {totalCount} {totalCount === 1 ? "item" : "items"}
       {isLoading && " (Loading...)"}
@@ -63,13 +65,13 @@ export const LoadMoreRow = ({
 }) => (
   <div
     style={style}
-    className="flex items-center justify-center border-b border-gray-200 bg-blue-50 hover:bg-blue-100 cursor-pointer transition-colors"
+    className="flex items-center justify-center border-t border-gray-50 bg-accent/10 hover:bg-accent/20 duration-300 cursor-pointer transition-colors"
     onClick={onLoadMore}
   >
-    <div className="flex items-center justify-center w-full h-full text-blue-600 hover:text-blue-700 font-medium">
+    <div className="flex items-center justify-center w-full h-full text-accent font-medium">
       {isLoading ? (
         <>
-          <CircularProgress size={16} className="mr-2 text-blue-600" />
+          <CircularProgress size={16} className="mr-2 text-accent" />
           Loading more
         </>
       ) : (

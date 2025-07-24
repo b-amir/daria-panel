@@ -9,7 +9,7 @@ export default async function DashboardLayout({
   return (
     <div className="min-h-screen w-full bg-gray-50">
       <Sidebar />
-      <main className="ml-64">
+      <main className="ml-64 h-screen">
         <DashboardClientWrapper>{children}</DashboardClientWrapper>
       </main>
     </div>

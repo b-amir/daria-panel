@@ -17,7 +17,7 @@ export function SidebarNav() {
             href={item.href}
             className={`px-4 py-2 rounded text-sm font-semibold transition-colors flex items-center justify-between ${
               isSelected
-                ? "bg-blue-100 text-blue-700"
+                ? "bg-accent/10 text-accent"
                 : "hover:bg-gray-100 text-gray-800"
             }`}
           >

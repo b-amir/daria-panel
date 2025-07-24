@@ -2,7 +2,14 @@
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { TextField, Button, Alert, Paper, Typography } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Alert,
+  Paper,
+  Typography,
+  CircularProgress,
+} from "@mui/material";
 import Link from "next/link";
 
 const schema = z.object({
@@ -22,11 +29,13 @@ type AuthFormProps = {
 const modeConfig = {
   login: {
     title: "Login",
+    loadingText: "Logging in...",
     linkText: "Don't have an account? Sign up",
     linkHref: "/signup",
   },
   signup: {
     title: "Sign Up",
+    loadingText: "Creating account...",
     linkText: "Already have an account? Login",
     linkHref: "/login",
   },
@@ -46,12 +55,14 @@ export function AuthForm({
     resolver: zodResolver(schema),
   });
 
-  const { title, linkText, linkHref } = modeConfig[mode];
+  const { title, loadingText, linkText, linkHref } = modeConfig[mode];
 
   return (
     <Paper
       elevation={0}
-      className="w-full mt-6 p-8 flex flex-col items-center !rounded-xl !shadow-md border border-gray-300"
+      className={`w-full mt-6 p-8 flex flex-col items-center !rounded-xl !shadow-md border border-gray-300 ${
+        isSubmitting ? "animate-pulse" : ""
+      }`}
     >
       <Typography
         component="h1"
@@ -76,6 +87,7 @@ export function AuthForm({
           label="Username"
           fullWidth
           margin="normal"
+          disabled={isSubmitting}
           {...register("username")}
           error={!!errors.username}
           helperText={errors.username?.message}
@@ -86,6 +98,7 @@ export function AuthForm({
           type="password"
           fullWidth
           margin="normal"
+          disabled={isSubmitting}
           {...register("password")}
           error={!!errors.password}
           helperText={errors.password?.message}
@@ -98,12 +111,17 @@ export function AuthForm({
           fullWidth
           disabled={isSubmitting}
           sx={{ mt: 2, py: 1.5 }}
+          startIcon={
+            isSubmitting ? <CircularProgress size={16} color="inherit" /> : null
+          }
         >
-          {isSubmitting ? "Processing..." : title}
+          {isSubmitting ? loadingText : title}
         </Button>
         <Link
           href={linkHref}
-          className="text-sm text-center mt-4 text-accent hover:underline"
+          className={`text-sm text-center mt-4 text-accent hover:underline ${
+            isSubmitting ? "pointer-events-none opacity-50" : ""
+          }`}
         >
           {linkText}
         </Link>

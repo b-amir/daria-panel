@@ -5,7 +5,7 @@ export const useListHeight = () => {
 
   useEffect(() => {
     const updateHeight = () => {
-      setListHeight(window.innerHeight - 180);
+      setListHeight(window.innerHeight - 174);
     };
 
     updateHeight();

@@ -3,7 +3,8 @@ import { VirtualTable } from "@/components/table/VirtualTable";
 import { PersonRow } from "@/components/table/PersonRow";
 import { LoadingState } from "@/components/ui/LoadingState";
 import { ErrorState } from "@/components/ui/ErrorState";
-import { useOptimizedUsers } from "@/hooks/useOptimizedUsers";
+import { PageHeader } from "@/components/ui/PageHeader";
+import { useUsers } from "@/hooks/useUsers";
 import { USERS_TABLE_COLUMNS } from "@/constants/tableConfigs";
 import { COMMON_STYLES } from "@/constants/commonStyles";
 
@@ -16,7 +17,7 @@ export default function UsersPage() {
     isNextPageLoading,
     loadNextPage,
     totalCount,
-  } = useOptimizedUsers();
+  } = useUsers();
 
   if (isLoading) {
     return <LoadingState message="Loading users" />;
@@ -27,12 +28,9 @@ export default function UsersPage() {
   }
 
   return (
-    <div className={COMMON_STYLES.fullHeightFlex}>
-      <div className={COMMON_STYLES.pageContainer}>
-        <h1 className="text-xl md:text-2xl font-bold text-gray-900 mb-4">
-          Users
-        </h1>
-      </div>
+    <div className={`${COMMON_STYLES.fullHeightFlex} h-screen`}>
+      <PageHeader title="Users" />
+
       <div className={`flex-1 overflow-hidden`}>
         <VirtualTable
           title=""

@@ -1,7 +1,7 @@
 import { promises as fs } from "fs";
 import path from "path";
 
-const USERS_FILE = path.join(process.cwd(), "users.json");
+const USERS_FILE = path.join(process.cwd(), "mockDB", "users.json");
 
 type User = { username: string; password: string };
 

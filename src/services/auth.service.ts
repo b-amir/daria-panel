@@ -1,12 +1,11 @@
 import { promises as fs } from "fs";
 import path from "path";
-import { NextResponse } from "next/server";
 
 const USERS_FILE = path.join(process.cwd(), "users.json");
 
 type User = { username: string; password: string };
 
-export async function getAllUsers(): Promise<User[]> {
+async function getAllUsers(): Promise<User[]> {
   try {
     const data = await fs.readFile(USERS_FILE, "utf-8");
     return JSON.parse(data);
@@ -18,7 +17,7 @@ export async function getAllUsers(): Promise<User[]> {
 export async function authenticateUser(
   username: string,
   password: string
-): Promise<{ success: boolean; error?: string; setLoggedIn?: boolean }> {
+): Promise<{ success: boolean; error?: string }> {
   const users = await getAllUsers();
 
   if (users.length === 0) {
@@ -30,7 +29,7 @@ export async function authenticateUser(
   );
 
   if (user) {
-    return { success: true, setLoggedIn: true };
+    return { success: true };
   } else {
     return { success: false, error: "Invalid credentials" };
   }
@@ -50,10 +49,4 @@ export async function registerUser(
   await fs.writeFile(USERS_FILE, JSON.stringify(users, null, 2));
 
   return { success: true };
-}
-
-export function logoutUser(): Response {
-  const response = NextResponse.json({ success: true });
-  response.cookies.set("logged_in", "", { path: "/", maxAge: 0 });
-  return response;
 }

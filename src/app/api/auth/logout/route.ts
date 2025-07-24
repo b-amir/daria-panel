@@ -4,7 +4,11 @@ import { addLogViaApi } from "@/services/logs.service";
 export async function POST(req: NextRequest) {
   const username = req.cookies.get("username")?.value || "unknown";
 
-  await addLogViaApi(username, "logout", "User logged out");
+  try {
+    await addLogViaApi(username, "logout", "User logged out");
+  } catch {
+    console.error("Failed to add logout log");
+  }
 
   const response = NextResponse.json({ success: true });
   response.cookies.set("logged_in", "", { path: "/", maxAge: 0 });

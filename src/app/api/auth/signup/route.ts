@@ -7,14 +7,22 @@ export async function POST(req: NextRequest) {
   const result = await registerUser(username, password);
 
   if (result.success) {
-    await addLogViaApi(username, "signup", "User account created");
+    try {
+      await addLogViaApi(username, "signup", "User account created");
+    } catch {
+      console.error("Failed to add signup log");
+    }
     return NextResponse.json({ success: true });
   } else {
-    await addLogViaApi(
-      username || "unknown",
-      "signup_failed",
-      result.error || "Registration failed"
-    );
+    try {
+      await addLogViaApi(
+        username || "unknown",
+        "signup_failed",
+        result.error || "Registration failed"
+      );
+    } catch {
+      console.error("Failed to add signup failed log");
+    }
     return NextResponse.json({ error: result.error }, { status: 400 });
   }
 }

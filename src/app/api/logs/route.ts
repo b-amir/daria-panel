@@ -1,10 +1,29 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
   writeLogToFile,
-  getAllLogsFromFile,
   readPaginatedLogsFromFile,
   getLogsCountFromFile,
 } from "@/services/logs.service";
+
+async function readAllLogsFromFile() {
+  const { promises: fs } = await import("fs");
+  const path = await import("path");
+  const LOGS_FILE = path.join(process.cwd(), "mockDB", "logs.json");
+
+  try {
+    const data = await fs.readFile(LOGS_FILE, "utf-8");
+    if (!data.trim()) {
+      return [];
+    }
+    const parsed = JSON.parse(data);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") {
+      return [];
+    }
+    return [];
+  }
+}
 
 export async function GET(req: NextRequest) {
   try {
@@ -25,7 +44,7 @@ export async function GET(req: NextRequest) {
       });
     }
 
-    const logs = await getAllLogsFromFile();
+    const logs = await readAllLogsFromFile();
     return NextResponse.json(logs);
   } catch {
     return NextResponse.json(

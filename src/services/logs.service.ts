@@ -1,7 +1,6 @@
 import { promises as fs } from "fs";
 import path from "path";
-import { apiGet, apiPost } from "@/utils/api";
-import { PaginatedResponse } from "@/types/api";
+import { apiPost } from "@/utils/api";
 
 const LOGS_FILE = path.join(process.cwd(), "mockDB", "logs.json");
 
@@ -11,16 +10,6 @@ export interface LogEntry {
   event: string;
   time: string;
   details?: string;
-}
-
-export async function fetchLogsFromApi(
-  page: number = 0,
-  limit: number = 20
-): Promise<PaginatedResponse<LogEntry>> {
-  const offset = page * limit;
-  return apiGet<PaginatedResponse<LogEntry>>(
-    `/api/logs?limit=${limit}&offset=${offset}`
-  );
 }
 
 export async function addLogViaApi(
@@ -34,8 +23,16 @@ export async function addLogViaApi(
 async function readAllLogsFromFile(): Promise<LogEntry[]> {
   try {
     const data = await fs.readFile(LOGS_FILE, "utf-8");
-    return JSON.parse(data);
-  } catch (e) {
+    if (!data.trim()) {
+      return [];
+    }
+    const parsed = JSON.parse(data);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") {
+      return [];
+    }
+    console.error("Error reading logs file:", error);
     return [];
   }
 }
@@ -58,13 +55,9 @@ export async function writeLogToFile(
     logs.push(newLog);
     await fs.writeFile(LOGS_FILE, JSON.stringify(logs, null, 2));
   } catch (error) {
-    console.error("Failed to add log:", error);
+    console.error("Failed to write log:", error);
     throw new Error("Failed to add log entry");
   }
-}
-
-export async function getAllLogsFromFile(): Promise<LogEntry[]> {
-  return readAllLogsFromFile();
 }
 
 export async function readPaginatedLogsFromFile(

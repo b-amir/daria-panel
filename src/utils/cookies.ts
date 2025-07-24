@@ -1,4 +1,8 @@
 export function parseCookies(): Record<string, string> {
+  if (typeof document === "undefined" || !document.cookie) {
+    return {};
+  }
+
   return Object.fromEntries(
     document.cookie
       .split(";")
@@ -14,5 +18,8 @@ export function getCookie(name: string): string | undefined {
 }
 
 export function getUsernameFromCookies(): string | undefined {
-  return getCookie("username");
+  const username = getCookie("username");
+  const isLoggedIn = getCookie("logged_in");
+
+  return username && isLoggedIn === "true" ? username : undefined;
 }

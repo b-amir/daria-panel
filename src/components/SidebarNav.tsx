@@ -16,7 +16,7 @@ export function SidebarNav() {
           <Link
             key={item.href}
             href={item.href}
-            className={`px-4 py-2 rounded text-base font-medium transition-colors flex items-center justify-between ${
+            className={`px-4 py-2 rounded text-sm font-semibold transition-colors flex items-center justify-between ${
               isSelected ? "bg-blue-100 text-blue-700" : "hover:bg-gray-100 text-gray-800"
             }`}
           >

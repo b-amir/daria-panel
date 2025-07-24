@@ -38,16 +38,16 @@ export function PaginatedTable<T>({
       <Typography
         fontWeight={700}
         variant="h6"
-        className="px-4 p-8 pb-6 font-bold border-b border-gray-200"
+        className="px-4 p-8 pb-6 font-bold border-b border-gray-300 bg-gray-50"
       >
         {title}
       </Typography>
       <Table>
         <TableHead>
-          <TableRow>
+          <TableRow className="bg-gray-100 shadow-inner">
             {columns.map((column) => (
               <TableCell
-                className="uppercase font-bold text-sm"
+                className="uppercase !font-bold !text-xs !py-2 !px-4 !text-gray-500"
                 key={column.id}
               >
                 {column.label}

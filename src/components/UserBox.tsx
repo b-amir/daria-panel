@@ -14,11 +14,11 @@ export function UserBox() {
 
   return (
     <div className="mt-auto p-2 px-4 flex items-center justify-between border border-gray-200 hover:border-gray-300 rounded-md">
-      <span className="text-base font-semibold text-gray-800">Username</span>
+      <span className="text-sm font-semibold text-gray-800">Username</span>
       <Button
         variant="text"
         onClick={handleLogout}
-        className="min-w-0 p-1 text-accent"
+        className="min-w-0 p-0 text-accent "
       >
         <span className="sr-only">logout</span>
         <FiLogOut className="w-5 h-5" />

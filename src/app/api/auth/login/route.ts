@@ -8,6 +8,7 @@ export async function POST(req: NextRequest) {
   if (result.success) {
     const response = NextResponse.json({ success: true });
     response.cookies.set("logged_in", "true", { path: "/" });
+    response.cookies.set("username", username, { path: "/" });
     return response;
   } else {
     return NextResponse.json({ error: result.error }, { status: 401 });

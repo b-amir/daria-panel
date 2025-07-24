@@ -4,7 +4,7 @@ import { Button } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { FiLogOut } from "react-icons/fi";
 
-export function UserBox() {
+export function UserBox({ username }: { username?: string }) {
   const router = useRouter();
 
   const handleLogout = async () => {
@@ -14,7 +14,7 @@ export function UserBox() {
 
   return (
     <div className="mt-auto p-2 px-4 flex items-center justify-between border border-gray-200 hover:border-gray-300 rounded-md">
-      <span className="text-sm font-semibold text-gray-800">Username</span>
+      <span className="text-sm font-semibold text-gray-800">{username}</span>
       <Button
         variant="text"
         onClick={handleLogout}

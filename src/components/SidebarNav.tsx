@@ -1,9 +1,8 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { navItems } from "../app/(dashboard)/constants/navItems";
+import { navItems } from "../constants/navItems";
 import { FaChevronRight } from "react-icons/fa";
-
 
 export function SidebarNav() {
   const pathname = usePathname();
@@ -17,7 +16,9 @@ export function SidebarNav() {
             key={item.href}
             href={item.href}
             className={`px-4 py-2 rounded text-sm font-semibold transition-colors flex items-center justify-between ${
-              isSelected ? "bg-blue-100 text-blue-700" : "hover:bg-gray-100 text-gray-800"
+              isSelected
+                ? "bg-blue-100 text-blue-700"
+                : "hover:bg-gray-100 text-gray-800"
             }`}
           >
             {item.label}

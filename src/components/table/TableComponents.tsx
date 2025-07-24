@@ -1,7 +1,7 @@
 import { Typography, CircularProgress } from "@mui/material";
 import { ReactNode } from "react";
 import { FiRefreshCw } from "react-icons/fi";
-import { Column, getFlexClassFromWidth } from "@/constants/tableConfigs";
+import { Column } from "@/constants/tableConfigs";
 import { COMMON_STYLES } from "@/constants/commonStyles";
 
 export const TableHeader = ({ title }: { title: string }) => {
@@ -25,9 +25,7 @@ export const TableColumnHeaders = ({ columns }: { columns: Column[] }) => (
       {columns.map((column) => (
         <div
           key={column.id}
-          className={`${getFlexClassFromWidth(column.width)} ${
-            COMMON_STYLES.tableCell.base
-          } uppercase font-bold text-xs text-gray-500 h-12`}
+          className={`flex-1 ${COMMON_STYLES.tableCell.base} uppercase font-bold text-xs text-gray-500 h-12`}
         >
           <span className="hidden sm:inline">{column.label}</span>
           <span className="sm:hidden">{column.label.slice(0, 3)}</span>

@@ -1,51 +1,50 @@
 "use client";
-import { useQuery } from "@tanstack/react-query";
-import { PaginatedTable } from "@/components/PaginatedTable";
+import { VirtualTable } from "@/components/VirtualTable";
 import { PersonRow } from "@/components/PersonRow";
-import { fetchUsers } from "@/services/users.service";
-
-const columns = [
-  { id: "name", label: "Name" },
-  { id: "email", label: "Email" },
-  { id: "phone", label: "Phone" },
-  { id: "company", label: "Company" },
-];
+import { LoadingState } from "@/components/ui/LoadingState";
+import { ErrorState } from "@/components/ui/ErrorState";
+import { useOptimizedUsers } from "@/hooks/useOptimizedUsers";
+import { USERS_TABLE_COLUMNS } from "@/constants/table-configs";
+import { COMMON_STYLES } from "@/constants/styles";
 
 export default function UsersPage() {
   const {
-    data: users = [],
+    users,
     isLoading,
     error,
-  } = useQuery({
-    queryKey: ["users"],
-    queryFn: fetchUsers,
-  });
+    hasNextPage,
+    isNextPageLoading,
+    loadNextPage,
+    totalCount,
+  } = useOptimizedUsers();
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center p-8">
-        <div className="text-lg">Loading users...</div>
-      </div>
-    );
+    return <LoadingState message="Loading users..." />;
   }
 
   if (error) {
-    return (
-      <div className="flex items-center justify-center p-8">
-        <div className="text-lg text-red-600">
-          Error loading users:{" "}
-          {error instanceof Error ? error.message : "Unknown error"}
-        </div>
-      </div>
-    );
+    return <ErrorState error={error} prefix="Error loading users" />;
   }
 
   return (
-    <PaginatedTable
-      title="Users"
-      columns={columns}
-      data={users}
-      renderRow={(person) => <PersonRow person={person} />}
-    />
+    <div className={COMMON_STYLES.fullHeightFlex}>
+      <div className={COMMON_STYLES.pageContainer}>
+        <h1 className="text-xl md:text-2xl font-bold text-gray-900 mb-4">
+          Users
+        </h1>
+      </div>
+      <div className={`flex-1 overflow-hidden`}>
+        <VirtualTable
+          title=""
+          columns={USERS_TABLE_COLUMNS}
+          data={users}
+          renderRow={(person) => <PersonRow person={person} />}
+          hasNextPage={hasNextPage}
+          isNextPageLoading={isNextPageLoading}
+          loadNextPage={loadNextPage}
+          totalCount={totalCount}
+        />
+      </div>
+    </div>
   );
 }

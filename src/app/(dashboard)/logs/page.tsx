@@ -1,14 +1,6 @@
 "use client";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Typography,
-} from "@mui/material";
+import { PaginatedTable } from "@/components/PaginatedTable";
+import { TableCell } from "@mui/material";
 
 const logs = [
   { id: 1, user: "Alice Smith", event: "login", time: "2024-06-01 10:00" },
@@ -16,30 +8,25 @@ const logs = [
   { id: 3, user: "Charlie Lee", event: "page view", time: "2024-06-01 11:00" },
 ];
 
+const columns = [
+  { id: "user", label: "User" },
+  { id: "event", label: "Event" },
+  { id: "time", label: "Time" },
+];
+
 export default function LogsPage() {
   return (
-    <TableContainer component={Paper}>
-      <Typography variant="h6" className="p-4 pb-0 font-bold">
-        Logs
-      </Typography>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>User</TableCell>
-            <TableCell>Event</TableCell>
-            <TableCell>Time</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {logs.map((log) => (
-            <TableRow key={log.id}>
-              <TableCell>{log.user}</TableCell>
-              <TableCell>{log.event}</TableCell>
-              <TableCell>{log.time}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <PaginatedTable
+      title="Logs"
+      columns={columns}
+      data={logs}
+      renderRow={(log) => (
+        <>
+          <TableCell>{log.user}</TableCell>
+          <TableCell>{log.event}</TableCell>
+          <TableCell>{log.time}</TableCell>
+        </>
+      )}
+    />
   );
 }

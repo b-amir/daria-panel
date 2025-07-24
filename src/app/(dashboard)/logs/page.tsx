@@ -16,7 +16,6 @@ export default function LogsPage() {
     error,
     hasNextPage,
     isNextPageLoading,
-    handleRefresh,
     loadNextPage,
   } = useOptimizedLogs();
 
@@ -31,6 +30,7 @@ export default function LogsPage() {
   return (
     <div className={COMMON_STYLES.fullHeightFlex}>
       <PageHeader title="Logs" />
+
       <div className={`flex-1 ${COMMON_STYLES.sectionSpacing} overflow-hidden`}>
         <VirtualTable
           title=""

@@ -2,6 +2,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { AuthFormData } from "@/components/AuthForm";
+import { useAuthStore } from "@/stores/authStore";
+import { useLogStore } from "@/stores/logStore";
 
 type AuthMode = "login" | "signup";
 
@@ -33,6 +35,9 @@ export function useAuth(mode: AuthMode) {
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const { login } = useAuthStore();
+  const { addOptimisticLog } = useLogStore();
+
   const onSubmit = async (data: AuthFormData) => {
     setError(null);
     setIsSubmitting(true);
@@ -40,16 +45,25 @@ export function useAuth(mode: AuthMode) {
     try {
       await performAuthRequest(mode, data);
 
+      if (mode === "login") {
+        login(data.username);
+        addOptimisticLog(data.username, "login", "User logged in successfully");
+      } else {
+        addOptimisticLog(data.username, "signup", "User account created");
+      }
+
       router.push(SUCCESS_REDIRECTS[mode]);
       if (mode === "login") {
         router.refresh();
       }
     } catch (err) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError("An unexpected error occurred. Please try again.");
-      }
+      const errorMsg =
+        err instanceof Error
+          ? err.message
+          : "An unexpected error occurred. Please try again.";
+      setError(errorMsg);
+
+      addOptimisticLog(data.username || "unknown", `${mode}_failed`, errorMsg);
     } finally {
       setIsSubmitting(false);
     }

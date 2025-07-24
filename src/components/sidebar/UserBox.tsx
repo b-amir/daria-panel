@@ -3,12 +3,21 @@
 import { Button } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { FiLogOut } from "react-icons/fi";
+import { useAuthStore } from "@/stores/authStore";
+import { useLogStore } from "@/stores/logStore";
 
 export function UserBox({ username }: { username?: string }) {
   const router = useRouter();
+  const { logout } = useAuthStore();
+  const { addOptimisticLog } = useLogStore();
 
   const handleLogout = async () => {
+    if (username) {
+      addOptimisticLog(username, "logout", "User logged out");
+    }
+
     await fetch("/api/auth/logout", { method: "POST" });
+    logout();
     router.push("/login");
   };
 

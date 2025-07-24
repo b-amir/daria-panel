@@ -1,9 +1,11 @@
 "use client";
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { useLogStore } from "@/stores/logStore";
 
 export function usePageVisitLogger(username?: string) {
   const pathname = usePathname();
+  const { addOptimisticLog } = useLogStore();
 
   useEffect(() => {
     if (!username) return;
@@ -13,23 +15,12 @@ export function usePageVisitLogger(username?: string) {
       return segments[segments.length - 1] || "home";
     };
 
-    const logPageVisit = async () => {
-      try {
-        const pageName = getPageName(pathname);
-        await fetch("/api/logs", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            user: username,
-            event: `page_visit: ${pageName}`,
-            details: `Visited ${pathname}`,
-          }),
-        });
-      } catch (error) {
-        console.error("Failed to log page visit:", error);
-      }
-    };
+    const pageName = getPageName(pathname);
 
-    logPageVisit();
-  }, [username, pathname]);
+    addOptimisticLog(
+      username,
+      `page_visit: ${pageName}`,
+      `Visited ${pathname}`
+    );
+  }, [username, pathname, addOptimisticLog]);
 }

@@ -1,20 +1,19 @@
 "use client";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
-import { getUsernameFromCookies } from "@/utils/cookies";
+import { useAuthStore } from "@/stores/authStore";
 import { QUERY_KEYS } from "@/constants/queryKeys";
 import { usePageVisitLogger } from "./usePageVisitLogger";
 
 export function useOptimizedAuth() {
-  const [username, setUsername] = useState<string>();
+  const { user, initializeAuth } = useAuthStore();
   const queryClient = useQueryClient();
   const pathname = usePathname();
 
   useEffect(() => {
-    const detectedUsername = getUsernameFromCookies();
-    setUsername(detectedUsername);
-  }, []);
+    initializeAuth();
+  }, [initializeAuth]);
 
   useEffect(() => {
     if (pathname === "/logs") {
@@ -22,15 +21,10 @@ export function useOptimizedAuth() {
     }
   }, [pathname, queryClient]);
 
-  usePageVisitLogger(username);
+  usePageVisitLogger(user?.username);
 
-  const authState = useMemo(
-    () => ({
-      username,
-      isAuthenticated: !!username,
-    }),
-    [username]
-  );
-
-  return authState;
+  return {
+    username: user?.username,
+    isAuthenticated: user?.isAuthenticated || false,
+  };
 }

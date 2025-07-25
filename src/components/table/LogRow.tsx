@@ -1,13 +1,46 @@
 import { memo } from "react";
-import { LogEntry } from "@/services/logs.service";
+import { LogEntry, LogType } from "@/types/logs";
 import { formatDateTime, formatDateOnly } from "@/utils/formatters";
 import { COMMON_STYLES } from "@/constants/commonStyles";
+import { Badge, BadgeVariant, Tooltip } from "@/components/ui";
+import {
+  FiLogIn as LoginIcon,
+  FiLogOut as LogoutIcon,
+  FiAlertCircle as AlertIcon,
+  FiUserPlus as UserPlusIcon,
+  FiEye as EyeIcon,
+} from "react-icons/fi";
+import { IconType } from "react-icons";
 
 interface LogRowProps {
   log: LogEntry;
 }
 
+const LOG_TYPE_CONFIGS: Record<
+  LogType,
+  { variant: BadgeVariant; icon: IconType }
+> = {
+  [LogType.LOGIN]: { variant: "success", icon: LoginIcon },
+  [LogType.LOGOUT]: { variant: "info", icon: LogoutIcon },
+  [LogType.LOGIN_FAILED]: { variant: "error", icon: AlertIcon },
+  [LogType.SIGNUP]: { variant: "secondary", icon: UserPlusIcon },
+  [LogType.SIGNUP_FAILED]: { variant: "error", icon: AlertIcon },
+  [LogType.PAGE_VISIT]: { variant: "default", icon: EyeIcon },
+};
+
 export const LogRow = memo<LogRowProps>(({ log }) => {
+  const badgeConfig = LOG_TYPE_CONFIGS[log.type];
+
+  const badgeElement = (
+    <Badge
+      variant={badgeConfig.variant}
+      icon={badgeConfig.icon}
+      className="cursor-help"
+    >
+      {log.event}
+    </Badge>
+  );
+
   return (
     <>
       <div
@@ -20,11 +53,11 @@ export const LogRow = memo<LogRowProps>(({ log }) => {
       <div
         className={`flex-1 ${COMMON_STYLES.tableCell.base} ${COMMON_STYLES.tableCell.text.sm}`}
       >
-        <span
-          className={`${COMMON_STYLES.tableCell.colors.secondary} ${COMMON_STYLES.tableCell.responsive.breakWords}`}
-        >
-          {log.event}
-        </span>
+        {log.details ? (
+          <Tooltip content={log.details}>{badgeElement}</Tooltip>
+        ) : (
+          badgeElement
+        )}
       </div>
       <div
         className={`flex-1 ${COMMON_STYLES.tableCell.base} ${COMMON_STYLES.tableCell.text.xs} ${COMMON_STYLES.tableCell.colors.muted}`}

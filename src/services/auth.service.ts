@@ -9,7 +9,7 @@ async function getAllUsers(): Promise<User[]> {
   try {
     const data = await fs.readFile(USERS_FILE, "utf-8");
     return JSON.parse(data);
-  } catch (e) {
+  } catch {
     return [];
   }
 }

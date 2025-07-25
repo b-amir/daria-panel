@@ -45,7 +45,9 @@ const VirtualTableComponent = <T,>({
 
   const handleLoadMore = useCallback(() => {
     if (paginationProps.hasNextPage && !paginationProps.isNextPageLoading) {
-      paginationProps.loadNextPage();
+      paginationProps.loadNextPage().catch((error) => {
+        console.error("Failed to load more data:", error);
+      });
     }
   }, [paginationProps]);
 

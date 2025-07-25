@@ -106,8 +106,8 @@ export const DataRow = ({
 }) => (
   <div
     style={style}
-    className="flex items-center border-b border-gray-200 bg-white hover:bg-gray-50 transition-colors"
+    className="border-b border-gray-200 bg-white hover:bg-gray-50 transition-colors"
   >
-    <div className="flex w-full items-center h-full">{children}</div>
+    {children}
   </div>
 );

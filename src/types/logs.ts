@@ -5,6 +5,7 @@ export enum LogType {
   SIGNUP = "signup",
   SIGNUP_FAILED = "signup_failed",
   PAGE_VISIT = "page_visit",
+  PROFILE_VISIT = "profile_visit",
 }
 
 export interface LogEntry {

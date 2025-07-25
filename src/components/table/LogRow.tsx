@@ -9,6 +9,7 @@ import {
   FiAlertCircle as AlertIcon,
   FiUserPlus as UserPlusIcon,
   FiEye as EyeIcon,
+  FiUser as UserIcon,
 } from "react-icons/fi";
 import { IconType } from "react-icons";
 
@@ -26,6 +27,7 @@ const LOG_TYPE_CONFIGS: Record<
   [LogType.SIGNUP]: { variant: "secondary", icon: UserPlusIcon },
   [LogType.SIGNUP_FAILED]: { variant: "error", icon: AlertIcon },
   [LogType.PAGE_VISIT]: { variant: "default", icon: EyeIcon },
+  [LogType.PROFILE_VISIT]: { variant: "default", icon: UserIcon },
 };
 
 export const LogRow = memo<LogRowProps>(({ log }) => {
@@ -44,14 +46,14 @@ export const LogRow = memo<LogRowProps>(({ log }) => {
   return (
     <>
       <div
-        className={`flex-1 ${COMMON_STYLES.tableCell.base} ${COMMON_STYLES.tableCell.text.sm} ${COMMON_STYLES.tableCell.responsive.truncate}`}
+        className={`w-1/2 md:w-1/3 ${COMMON_STYLES.tableCell.base} ${COMMON_STYLES.tableCell.text.sm} ${COMMON_STYLES.tableCell.responsive.truncate}`}
       >
         <span className={COMMON_STYLES.tableCell.colors.primary}>
           {log.user}
         </span>
       </div>
       <div
-        className={`flex-1 ${COMMON_STYLES.tableCell.base} ${COMMON_STYLES.tableCell.text.sm}`}
+        className={`w-1/2 md:w-1/3 ${COMMON_STYLES.tableCell.base} ${COMMON_STYLES.tableCell.text.sm}`}
       >
         {log.details ? (
           <Tooltip content={log.details}>{badgeElement}</Tooltip>
@@ -60,7 +62,7 @@ export const LogRow = memo<LogRowProps>(({ log }) => {
         )}
       </div>
       <div
-        className={`flex-1 ${COMMON_STYLES.tableCell.base} ${COMMON_STYLES.tableCell.text.xs} ${COMMON_STYLES.tableCell.colors.muted}`}
+        className={`hidden md:block md:w-1/3 ${COMMON_STYLES.tableCell.base} ${COMMON_STYLES.tableCell.text.xs} ${COMMON_STYLES.tableCell.colors.muted}`}
       >
         <div>
           <span className="hidden md:inline">{formatDateTime(log.time)}</span>

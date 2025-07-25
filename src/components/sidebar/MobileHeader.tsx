@@ -16,7 +16,9 @@ export function MobileHeader() {
       <button
         onClick={toggle}
         className="p-2 rounded-md hover:bg-gray-100 transition-colors"
-        aria-label="Toggle sidebar"
+        aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
+        aria-expanded={isOpen}
+        aria-controls="mobile-sidebar"
       >
         {isOpen ? (
           <CloseIcon className="w-6 h-6 text-gray-600" />

@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { FiLogOut } from "react-icons/fi";
 import { useAuthStore } from "@/stores/authStore";
 import { useLogStore } from "@/stores/logStore";
+import { LogType } from "@/types/logs";
 import { COMMON_STYLES } from "@/constants/commonStyles";
 
 export function UserBox({ username }: { username?: string }) {
@@ -18,7 +19,7 @@ export function UserBox({ username }: { username?: string }) {
     setIsLoggingOut(true);
 
     if (username) {
-      addOptimisticLog(username, "logout", "User logged out");
+      addOptimisticLog(username, "logout", LogType.LOGOUT, "User logged out");
     }
 
     await fetch("/api/auth/logout", { method: "POST" });

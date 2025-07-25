@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { authenticateUser } from "@/services/auth.service";
 import { addLogViaApi } from "@/services/logs.service";
+import { LogType } from "@/types/logs";
 
 export async function POST(req: NextRequest) {
   const { username, password } = await req.json();
@@ -8,7 +9,12 @@ export async function POST(req: NextRequest) {
 
   if (result.success) {
     try {
-      await addLogViaApi(username, "login", "User logged in successfully");
+      await addLogViaApi(
+        username,
+        "login",
+        LogType.LOGIN,
+        "User logged in successfully"
+      );
     } catch {
       console.error("Failed to add login log");
     }
@@ -22,6 +28,7 @@ export async function POST(req: NextRequest) {
       await addLogViaApi(
         username || "unknown",
         "login_failed",
+        LogType.LOGIN_FAILED,
         "Invalid credentials"
       );
     } catch {

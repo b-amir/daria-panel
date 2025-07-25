@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { getUsernameFromCookies } from "@/utils/cookies";
+import { LogType } from "@/types/logs";
 
 interface User {
   username: string;
@@ -26,7 +27,12 @@ interface AuthState {
     mode: AuthMode,
     data: AuthFormData,
     onSuccess: (mode: AuthMode) => void,
-    addOptimisticLog: (user: string, event: string, details?: string) => void
+    addOptimisticLog: (
+      user: string,
+      event: string,
+      type: LogType,
+      details?: string
+    ) => void
   ) => Promise<void>;
   clearError: () => void;
 }
@@ -44,12 +50,24 @@ async function performAuthRequest(mode: AuthMode, data: AuthFormData) {
   });
 
   if (!res.ok) {
+    let errorMessage = `${mode} failed`;
+
+    const resClone = res.clone();
+
     try {
       const responseData = await res.json();
-      throw new Error(responseData.error || `${mode} failed`);
+      errorMessage = responseData.error || errorMessage;
     } catch {
-      throw new Error(`Server error (${res.status})`);
+      try {
+        const responseText = await resClone.text();
+        console.error("Non-JSON response:", responseText);
+        errorMessage = responseText || `Server error (${res.status})`;
+      } catch {
+        errorMessage = `Server error (${res.status})`;
+      }
     }
+
+    throw new Error(errorMessage);
   }
 }
 
@@ -89,6 +107,7 @@ export const useAuthStore = create<AuthState>()(
         addOptimisticLog: (
           user: string,
           event: string,
+          type: LogType,
           details?: string
         ) => void
       ) => {
@@ -102,10 +121,16 @@ export const useAuthStore = create<AuthState>()(
             addOptimisticLog(
               data.username,
               "login",
+              LogType.LOGIN,
               "User logged in successfully"
             );
           } else {
-            addOptimisticLog(data.username, "signup", "User account created");
+            addOptimisticLog(
+              data.username,
+              "signup",
+              LogType.SIGNUP,
+              "User account created"
+            );
           }
 
           onSuccess(mode);
@@ -116,6 +141,7 @@ export const useAuthStore = create<AuthState>()(
           addOptimisticLog(
             data.username || "unknown",
             `${mode}_failed`,
+            mode === "login" ? LogType.LOGIN_FAILED : LogType.SIGNUP_FAILED,
             errorMsg
           );
         } finally {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@mui/material";
+import Button from "@mui/material/Button";
 import { useRouter } from "next/navigation";
 import { FiLogOut as LogoutIcon } from "react-icons/fi";
 import { useAuthStore } from "@/stores/authStore";

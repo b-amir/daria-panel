@@ -26,6 +26,10 @@ export function useUsers() {
   }, [apiUsers, setUsers]);
 
   const allUsers = useMemo(() => {
+    if (optimisticUsers.length === 0) {
+      return users;
+    }
+
     const convertedOptimisticUsers = optimisticUsers.map((user) => ({
       id: parseInt(user.id) || 999999, // temporary ID for sorting
       name: user.name,

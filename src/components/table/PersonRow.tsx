@@ -1,4 +1,5 @@
-import { memo } from "react";
+import { memo, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import { User } from "@/services/users.service";
 import { formatPhoneForMobile } from "@/utils/formatters";
 import { COMMON_STYLES } from "@/constants/commonStyles";
@@ -8,17 +9,25 @@ interface PersonRowProps {
 }
 
 export const PersonRow = memo<PersonRowProps>(({ person }) => {
+  const router = useRouter();
+
+  const handleClick = useCallback(() => {
+    router.push(`/users/${person.id}`);
+  }, [router, person.id]);
+
   return (
     <>
       <div
-        className={`flex-1 ${COMMON_STYLES.tableCell.base} ${COMMON_STYLES.tableCell.text.sm} ${COMMON_STYLES.tableCell.responsive.truncate}`}
+        className={`w-1/2 md:w-1/3 ${COMMON_STYLES.tableCell.base} ${COMMON_STYLES.tableCell.text.sm} ${COMMON_STYLES.tableCell.responsive.truncate} cursor-pointer hover:bg-gray-50 transition-colors duration-150`}
+        onClick={handleClick}
       >
         <span className={COMMON_STYLES.tableCell.colors.primary}>
           {person.name}
         </span>
       </div>
       <div
-        className={`flex-1 ${COMMON_STYLES.tableCell.base} ${COMMON_STYLES.tableCell.text.sm}`}
+        className={`w-1/2 md:w-1/3 ${COMMON_STYLES.tableCell.base} ${COMMON_STYLES.tableCell.text.sm} cursor-pointer hover:bg-gray-50 transition-colors duration-150`}
+        onClick={handleClick}
       >
         <span
           className={`${COMMON_STYLES.tableCell.colors.muted} ${COMMON_STYLES.tableCell.responsive.breakAll}`}
@@ -27,7 +36,8 @@ export const PersonRow = memo<PersonRowProps>(({ person }) => {
         </span>
       </div>
       <div
-        className={`flex-1 ${COMMON_STYLES.tableCell.base} ${COMMON_STYLES.tableCell.text.sm} ${COMMON_STYLES.tableCell.colors.secondary}`}
+        className={`hidden md:block md:w-1/3 ${COMMON_STYLES.tableCell.base} ${COMMON_STYLES.tableCell.text.sm} ${COMMON_STYLES.tableCell.colors.secondary} cursor-pointer hover:bg-gray-50 transition-colors duration-150`}
+        onClick={handleClick}
       >
         <div>
           <span className="hidden sm:inline">{person.phone}</span>

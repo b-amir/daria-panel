@@ -1,4 +1,5 @@
-import { Typography, CircularProgress } from "@mui/material";
+import Typography from "@mui/material/Typography";
+import CircularProgress from "@mui/material/CircularProgress";
 import { ReactNode } from "react";
 import { FiRefreshCw as RefreshIcon } from "react-icons/fi";
 import { Column } from "@/constants/tableConfigs";
@@ -19,21 +20,33 @@ export const TableHeader = ({ title }: { title: string }) => {
   );
 };
 
-export const TableColumnHeaders = ({ columns }: { columns: Column[] }) => (
-  <div className="flex-shrink-0 -mt-[1px]">
-    <div className="flex items-center bg-gray-100 shadow-inner border-b border-gray-300">
-      {columns.map((column) => (
-        <div
-          key={column.id}
-          className={`flex-1 ${COMMON_STYLES.tableCell.base} uppercase font-bold text-xs text-gray-500 ${COMMON_STYLES.heights.tableColumnHeader}`}
-        >
-          <span className="hidden sm:inline">{column.label}</span>
-          <span className="sm:hidden">{column.label.slice(0, 3)}</span>
-        </div>
-      ))}
+export const TableColumnHeaders = ({ columns }: { columns: Column[] }) => {
+  const visibleOnMobile = columns.filter((col) => !col.hideOnMobile);
+  const mobileColWidth = visibleOnMobile.length === 2 ? "w-1/2" : "flex-1";
+  const desktopColWidth = columns.length === 3 ? "md:w-1/3" : "md:flex-1";
+
+  return (
+    <div className="flex-shrink-0 -mt-[1px]">
+      <div className="flex items-center bg-gray-100 shadow-inner border-b border-gray-300">
+        {columns.map((column) => (
+          <div
+            key={column.id}
+            className={`
+              ${column.hideOnMobile ? "hidden md:block" : mobileColWidth}
+              ${desktopColWidth}
+              ${COMMON_STYLES.tableCell.base} 
+              uppercase font-bold text-xs text-gray-500 
+              ${COMMON_STYLES.heights.tableColumnHeader}
+            `}
+          >
+            <span className="hidden sm:inline">{column.label}</span>
+            <span className="sm:hidden">{column.label.slice(0, 3)}</span>
+          </div>
+        ))}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export const TableFooter = ({
   dataLength,

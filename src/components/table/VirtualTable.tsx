@@ -1,4 +1,4 @@
-import { ReactNode, useRef, useCallback, memo } from "react";
+import { ReactNode, useRef, useCallback, memo, useMemo } from "react";
 import { FixedSizeList as List } from "react-window";
 import { Column, ROW_HEIGHT } from "@/constants/tableConfigs";
 import { useListHeight } from "@/components/table/hooks/useListHeight";
@@ -34,23 +34,33 @@ const VirtualTableComponent = <T,>({
   const listRef = useRef<List>(null);
   const listHeight = useListHeight();
 
-  const handleLoadMore = useCallback(() => {
-    if (hasNextPage && !isNextPageLoading) {
-      loadNextPage();
-    }
-  }, [hasNextPage, isNextPageLoading, loadNextPage]);
+  const paginationProps = useMemo(
+    () => ({
+      hasNextPage,
+      isNextPageLoading,
+      loadNextPage,
+    }),
+    [hasNextPage, isNextPageLoading, loadNextPage]
+  );
 
-  const itemCount = hasNextPage ? data.length + 1 : data.length;
+  const handleLoadMore = useCallback(() => {
+    if (paginationProps.hasNextPage && !paginationProps.isNextPageLoading) {
+      paginationProps.loadNextPage();
+    }
+  }, [paginationProps]);
+
+  const itemCount = paginationProps.hasNextPage ? data.length + 1 : data.length;
 
   const renderVirtualRow = useCallback(
     ({ index, style }: { index: number; style: React.CSSProperties }) => {
-      const isLoadMoreRow = index === data.length && hasNextPage;
+      const isLoadMoreRow =
+        index === data.length && paginationProps.hasNextPage;
 
       if (isLoadMoreRow) {
         return (
           <LoadMoreRow
             style={style}
-            isLoading={isNextPageLoading}
+            isLoading={paginationProps.isNextPageLoading}
             onLoadMore={handleLoadMore}
           />
         );
@@ -61,7 +71,7 @@ const VirtualTableComponent = <T,>({
 
       return <DataRow style={style}>{renderRow(item)}</DataRow>;
     },
-    [data, renderRow, hasNextPage, isNextPageLoading, handleLoadMore]
+    [data, renderRow, paginationProps, handleLoadMore]
   );
 
   return (
@@ -86,7 +96,7 @@ const VirtualTableComponent = <T,>({
       <TableFooter
         dataLength={data.length}
         totalCount={totalCount}
-        isLoading={isNextPageLoading}
+        isLoading={paginationProps.isNextPageLoading}
       />
     </div>
   );

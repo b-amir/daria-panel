@@ -1,6 +1,6 @@
 "use client";
-import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
-import { useCallback, useMemo, useEffect } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useMemo, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { LogEntry } from "@/types/logs";
 import { useLogStore } from "@/stores/logStore";
@@ -26,7 +26,6 @@ async function fetchLogsPage({ pageParam = 0 }): Promise<LogsResponse> {
 }
 
 export function useLogs() {
-  const queryClient = useQueryClient();
   const recentLogs = useLogStore((state) => state.recentLogs);
 
   const { data, isLoading, error, fetchNextPage, isFetchingNextPage, refetch } =
@@ -34,7 +33,7 @@ export function useLogs() {
       queryKey: QUERY_KEYS.logsInfinite(),
       queryFn: fetchLogsPage,
       initialPageParam: 0,
-      getNextPageParam: (lastPage, allPages) => {
+      getNextPageParam: (lastPage: LogsResponse, allPages) => {
         if (!lastPage.hasMore) return undefined;
         return allPages.length;
       },
@@ -44,22 +43,36 @@ export function useLogs() {
     });
 
   const apiLogs = useMemo(() => {
-    return data?.pages.flatMap((page) => page.logs) || [];
+    return data?.pages.flatMap((page: LogsResponse) => page.logs) || [];
   }, [data]);
 
   const allLogs = useMemo(() => {
+    if (recentLogs.length === 0) {
+      return apiLogs;
+    }
+
+    const currentTime = Date.now();
+    const oneMinuteAgo = currentTime - 60000;
+
     const recentOptimisticLogs = recentLogs.filter((log) => {
       const logTime = new Date(log.time).getTime();
-      const oneMinuteAgo = Date.now() - 60000;
       return logTime > oneMinuteAgo;
     });
+
+    if (recentOptimisticLogs.length === 0) {
+      return apiLogs;
+    }
+
+    const apiLogsWithTimestamps = apiLogs.map((log) => ({
+      ...log,
+      timestamp: new Date(log.time).getTime(),
+    }));
 
     const filteredOptimistic = recentOptimisticLogs.filter((optimisticLog) => {
       const optimisticTime = new Date(optimisticLog.time).getTime();
 
-      return !apiLogs.some((apiLog) => {
-        const apiTime = new Date(apiLog.time).getTime();
-        const timeDiff = Math.abs(optimisticTime - apiTime);
+      return !apiLogsWithTimestamps.some((apiLog) => {
+        const timeDiff = Math.abs(optimisticTime - apiLog.timestamp);
 
         return (
           apiLog.user === optimisticLog.user &&
@@ -70,9 +83,14 @@ export function useLogs() {
     });
 
     const combinedLogs = [...filteredOptimistic, ...apiLogs];
-    const sortedLogs = combinedLogs.sort(
-      (a, b) => new Date(b.time).getTime() - new Date(a.time).getTime()
-    );
+
+    const sortedLogs = combinedLogs.sort((a, b) => {
+      const aTime =
+        "timestamp" in a ? (a.timestamp as number) : new Date(a.time).getTime();
+      const bTime =
+        "timestamp" in b ? (b.timestamp as number) : new Date(b.time).getTime();
+      return bTime - aTime;
+    });
 
     const pagesLoaded = data?.pages.length || 0;
     const maxRows = pagesLoaded * 20;
@@ -84,36 +102,27 @@ export function useLogs() {
     return data?.pages[0]?.total || 0;
   }, [data]);
 
-  const adjustedHasNextPage = useMemo(() => {
-    if (!data?.pages.length) return false;
-
-    const apiTotal = data.pages[0]?.total || 0;
-    const pagesLoaded = data.pages.length;
-    const apiRowsLoaded = pagesLoaded * 20;
-
-    return apiRowsLoaded < apiTotal;
-  }, [data]);
-
-  const handleRefresh = useCallback(() => {
-    queryClient.invalidateQueries({ queryKey: QUERY_KEYS.logs });
-    refetch();
-  }, [queryClient, refetch]);
-
-  const loadNextPage = useCallback(async () => {
-    if (adjustedHasNextPage && !isFetchingNextPage) {
+  const loadNextPage = async () => {
+    if (data?.pages && data.pages[data.pages.length - 1]?.hasMore) {
       await fetchNextPage();
     }
-  }, [adjustedHasNextPage, isFetchingNextPage, fetchNextPage]);
+  };
+
+  const hasNextPage = useMemo(() => {
+    return data?.pages
+      ? data.pages[data.pages.length - 1]?.hasMore || false
+      : false;
+  }, [data]);
 
   return {
     logs: allLogs,
     totalCount,
     isLoading,
     error,
-    hasNextPage: adjustedHasNextPage,
+    hasNextPage,
     isNextPageLoading: isFetchingNextPage,
-    handleRefresh,
     loadNextPage,
+    refetch,
   };
 }
 

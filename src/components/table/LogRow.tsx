@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useMemo } from "react";
 import { LogEntry, LogType } from "@/types/logs";
 import { formatDateTime, formatDateOnly } from "@/utils/formatters";
 import { COMMON_STYLES } from "@/constants/commonStyles";
@@ -33,6 +33,14 @@ const LOG_TYPE_CONFIGS: Record<
 export const LogRow = memo<LogRowProps>(({ log }) => {
   const badgeConfig = LOG_TYPE_CONFIGS[log.type];
 
+  const formattedTime = useMemo(
+    () => ({
+      dateTime: formatDateTime(log.time),
+      dateOnly: formatDateOnly(log.time),
+    }),
+    [log.time]
+  );
+
   const badgeElement = (
     <Badge
       variant={badgeConfig.variant}
@@ -65,8 +73,8 @@ export const LogRow = memo<LogRowProps>(({ log }) => {
         className={`hidden md:block md:w-1/3 ${COMMON_STYLES.tableCell.base} ${COMMON_STYLES.tableCell.text.xs} ${COMMON_STYLES.tableCell.colors.muted}`}
       >
         <div>
-          <span className="hidden md:inline">{formatDateTime(log.time)}</span>
-          <span className="md:hidden">{formatDateOnly(log.time)}</span>
+          <span className="hidden md:inline">{formattedTime.dateTime}</span>
+          <span className="md:hidden">{formattedTime.dateOnly}</span>
         </div>
       </div>
     </>

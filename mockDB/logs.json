@@ -1,26 +1,370 @@
 [
   {
     "id": 1,
-    "user": "test4",
+    "user": "test",
     "event": "page_visit: users",
     "type": "page_visit",
-    "time": "2025-07-25T22:44:36.767Z",
+    "time": "2025-07-25T23:24:53.317Z",
     "details": "Visited /users"
   },
   {
     "id": 2,
-    "user": "test4",
-    "event": "page_visit: logs",
-    "type": "page_visit",
-    "time": "2025-07-25T22:44:38.244Z",
-    "details": "Visited /logs"
+    "user": "test",
+    "event": "profile_visit: Leanne Graham",
+    "type": "profile_visit",
+    "time": "2025-07-25T23:24:59.675Z",
+    "details": "Visited profile of Leanne Graham"
   },
   {
     "id": 3,
-    "user": "test4",
+    "user": "test",
+    "event": "page_visit: logs",
+    "type": "page_visit",
+    "time": "2025-07-25T23:25:02.575Z",
+    "details": "Visited /logs"
+  },
+  {
+    "id": 4,
+    "user": "test",
     "event": "logout",
     "type": "logout",
-    "time": "2025-07-25T22:44:52.684Z",
+    "time": "2025-07-25T23:25:07.305Z",
+    "details": "User logged out"
+  },
+  {
+    "id": 5,
+    "user": "test",
+    "event": "login_failed",
+    "type": "login_failed",
+    "time": "2025-07-25T23:25:15.915Z",
+    "details": "No users found"
+  },
+  {
+    "id": 6,
+    "user": "test",
+    "event": "signup",
+    "type": "signup",
+    "time": "2025-07-25T23:25:25.705Z",
+    "details": "User account created"
+  },
+  {
+    "id": 7,
+    "user": "test",
+    "event": "signup_failed",
+    "type": "signup_failed",
+    "time": "2025-07-25T23:25:35.833Z",
+    "details": "User already exists"
+  },
+  {
+    "id": 8,
+    "user": "test2",
+    "event": "signup",
+    "type": "signup",
+    "time": "2025-07-25T23:25:39.938Z",
+    "details": "User account created"
+  },
+  {
+    "id": 9,
+    "user": "test23",
+    "event": "login_failed",
+    "type": "login_failed",
+    "time": "2025-07-25T23:25:43.222Z",
+    "details": "Invalid credentials"
+  },
+  {
+    "id": 10,
+    "user": "test2",
+    "event": "login",
+    "type": "login",
+    "time": "2025-07-25T23:25:47.401Z",
+    "details": "User logged in successfully"
+  },
+  {
+    "id": 11,
+    "user": "test2",
+    "event": "page_visit: users",
+    "type": "page_visit",
+    "time": "2025-07-25T23:25:47.662Z",
+    "details": "Visited /users"
+  },
+  {
+    "id": 12,
+    "user": "test2",
+    "event": "profile_visit: Ervin Howell",
+    "type": "profile_visit",
+    "time": "2025-07-25T23:25:49.995Z",
+    "details": "Visited profile of Ervin Howell"
+  },
+  {
+    "id": 13,
+    "user": "test2",
+    "event": "page_visit: logs",
+    "type": "page_visit",
+    "time": "2025-07-25T23:25:51.144Z",
+    "details": "Visited /logs"
+  },
+  {
+    "id": 14,
+    "user": "test2",
+    "event": "logout",
+    "type": "logout",
+    "time": "2025-07-25T23:25:58.225Z",
+    "details": "User logged out"
+  },
+  {
+    "id": 15,
+    "user": "test2",
+    "event": "signup_failed",
+    "type": "signup_failed",
+    "time": "2025-07-25T23:26:06.702Z",
+    "details": "User already exists"
+  },
+  {
+    "id": 16,
+    "user": "test3",
+    "event": "signup",
+    "type": "signup",
+    "time": "2025-07-25T23:26:14.992Z",
+    "details": "User account created"
+  },
+  {
+    "id": 17,
+    "user": "test34",
+    "event": "login_failed",
+    "type": "login_failed",
+    "time": "2025-07-25T23:26:20.549Z",
+    "details": "Invalid credentials"
+  },
+  {
+    "id": 18,
+    "user": "test3",
+    "event": "login",
+    "type": "login",
+    "time": "2025-07-25T23:26:23.900Z",
+    "details": "User logged in successfully"
+  },
+  {
+    "id": 19,
+    "user": "test3",
+    "event": "page_visit: users",
+    "type": "page_visit",
+    "time": "2025-07-25T23:26:24.132Z",
+    "details": "Visited /users"
+  },
+  {
+    "id": 20,
+    "user": "test3",
+    "event": "profile_visit: Clementine Bauch",
+    "type": "profile_visit",
+    "time": "2025-07-25T23:26:25.899Z",
+    "details": "Visited profile of Clementine Bauch"
+  },
+  {
+    "id": 21,
+    "user": "test3",
+    "event": "page_visit: users",
+    "type": "page_visit",
+    "time": "2025-07-25T23:26:28.647Z",
+    "details": "Visited /users"
+  },
+  {
+    "id": 22,
+    "user": "test3",
+    "event": "profile_visit: Chelsey Dietrich",
+    "type": "profile_visit",
+    "time": "2025-07-25T23:26:30.015Z",
+    "details": "Visited profile of Chelsey Dietrich"
+  },
+  {
+    "id": 23,
+    "user": "test3",
+    "event": "page_visit: users",
+    "type": "page_visit",
+    "time": "2025-07-25T23:26:31.212Z",
+    "details": "Visited /users"
+  },
+  {
+    "id": 24,
+    "user": "test3",
+    "event": "page_visit: logs",
+    "type": "page_visit",
+    "time": "2025-07-25T23:26:33.169Z",
+    "details": "Visited /logs"
+  },
+  {
+    "id": 25,
+    "user": "test3",
+    "event": "page_visit: users",
+    "type": "page_visit",
+    "time": "2025-07-25T23:26:39.698Z",
+    "details": "Visited /users"
+  },
+  {
+    "id": 26,
+    "user": "test3",
+    "event": "profile_visit: Patricia Lebsack",
+    "type": "profile_visit",
+    "time": "2025-07-25T23:26:41.474Z",
+    "details": "Visited profile of Patricia Lebsack"
+  },
+  {
+    "id": 27,
+    "user": "test3",
+    "event": "logout",
+    "type": "logout",
+    "time": "2025-07-25T23:26:42.403Z",
+    "details": "User logged out"
+  },
+  {
+    "id": 28,
+    "user": "test366",
+    "event": "login_failed",
+    "type": "login_failed",
+    "time": "2025-07-25T23:26:51.243Z",
+    "details": "Invalid credentials"
+  },
+  {
+    "id": 29,
+    "user": "test3",
+    "event": "login",
+    "type": "login",
+    "time": "2025-07-25T23:26:54.459Z",
+    "details": "User logged in successfully"
+  },
+  {
+    "id": 30,
+    "user": "test3",
+    "event": "page_visit: users",
+    "type": "page_visit",
+    "time": "2025-07-25T23:26:54.703Z",
+    "details": "Visited /users"
+  },
+  {
+    "id": 31,
+    "user": "test3",
+    "event": "page_visit: logs",
+    "type": "page_visit",
+    "time": "2025-07-25T23:26:55.718Z",
+    "details": "Visited /logs"
+  },
+  {
+    "id": 32,
+    "user": "test3",
+    "event": "page_visit: users",
+    "type": "page_visit",
+    "time": "2025-07-25T23:26:59.214Z",
+    "details": "Visited /users"
+  },
+  {
+    "id": 33,
+    "user": "test3",
+    "event": "page_visit: logs",
+    "type": "page_visit",
+    "time": "2025-07-25T23:27:00.148Z",
+    "details": "Visited /logs"
+  },
+  {
+    "id": 34,
+    "user": "test3",
+    "event": "logout",
+    "type": "logout",
+    "time": "2025-07-25T23:27:02.457Z",
+    "details": "User logged out"
+  },
+  {
+    "id": 35,
+    "user": "test3",
+    "event": "login",
+    "type": "login",
+    "time": "2025-07-25T23:27:05.664Z",
+    "details": "User logged in successfully"
+  },
+  {
+    "id": 36,
+    "user": "test3",
+    "event": "page_visit: users",
+    "type": "page_visit",
+    "time": "2025-07-25T23:27:05.921Z",
+    "details": "Visited /users"
+  },
+  {
+    "id": 37,
+    "user": "test3",
+    "event": "page_visit: logs",
+    "type": "page_visit",
+    "time": "2025-07-25T23:27:06.928Z",
+    "details": "Visited /logs"
+  },
+  {
+    "id": 38,
+    "user": "test3",
+    "event": "page_visit: users",
+    "type": "page_visit",
+    "time": "2025-07-25T23:27:21.165Z",
+    "details": "Visited /users"
+  },
+  {
+    "id": 39,
+    "user": "test3",
+    "event": "page_visit: logs",
+    "type": "page_visit",
+    "time": "2025-07-25T23:27:26.239Z",
+    "details": "Visited /logs"
+  },
+  {
+    "id": 40,
+    "user": "test3",
+    "event": "logout",
+    "type": "logout",
+    "time": "2025-07-25T23:27:31.129Z",
+    "details": "User logged out"
+  },
+  {
+    "id": 41,
+    "user": "test3",
+    "event": "signup_failed",
+    "type": "signup_failed",
+    "time": "2025-07-25T23:27:38.577Z",
+    "details": "User already exists"
+  },
+  {
+    "id": 42,
+    "user": "test36",
+    "event": "login_failed",
+    "type": "login_failed",
+    "time": "2025-07-25T23:27:42.223Z",
+    "details": "Invalid credentials"
+  },
+  {
+    "id": 43,
+    "user": "test3",
+    "event": "login",
+    "type": "login",
+    "time": "2025-07-25T23:27:45.314Z",
+    "details": "User logged in successfully"
+  },
+  {
+    "id": 44,
+    "user": "test3",
+    "event": "page_visit: users",
+    "type": "page_visit",
+    "time": "2025-07-25T23:27:45.567Z",
+    "details": "Visited /users"
+  },
+  {
+    "id": 45,
+    "user": "test3",
+    "event": "page_visit: logs",
+    "type": "page_visit",
+    "time": "2025-07-25T23:27:47.972Z",
+    "details": "Visited /logs"
+  },
+  {
+    "id": 46,
+    "user": "test3",
+    "event": "logout",
+    "type": "logout",
+    "time": "2025-07-25T23:27:50.006Z",
     "details": "User logged out"
   }
 ]

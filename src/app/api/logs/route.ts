@@ -4,6 +4,7 @@ import {
   readPaginatedLogsFromFile,
   getLogsCountFromFile,
 } from "@/services/logs.service";
+import { LogType } from "@/types/logs";
 
 async function readAllLogsFromFile() {
   const { promises: fs } = await import("fs");
@@ -56,16 +57,16 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const { user, event, details } = await req.json();
+    const { user, event, type, details } = await req.json();
 
-    if (!user || !event) {
+    if (!user || !event || !type) {
       return NextResponse.json(
-        { error: "User and event are required" },
+        { error: "User, event, and type are required" },
         { status: 400 }
       );
     }
 
-    await writeLogToFile(user, event, details);
+    await writeLogToFile(user, event, type as LogType, details);
     return NextResponse.json({ success: true });
   } catch {
     return NextResponse.json({ error: "Failed to add log" }, { status: 500 });

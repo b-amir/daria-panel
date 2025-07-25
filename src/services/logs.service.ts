@@ -1,23 +1,17 @@
 import { promises as fs } from "fs";
 import path from "path";
 import { apiPost } from "@/utils/api";
+import { LogType, LogEntry } from "@/types/logs";
 
 const LOGS_FILE = path.join(process.cwd(), "mockDB", "logs.json");
-
-export interface LogEntry {
-  id: number;
-  user: string;
-  event: string;
-  time: string;
-  details?: string;
-}
 
 export async function addLogViaApi(
   user: string,
   event: string,
+  type: LogType,
   details?: string
 ): Promise<void> {
-  return apiPost("/api/logs", { user, event, details });
+  return apiPost("/api/logs", { user, event, type, details });
 }
 
 async function readAllLogsFromFile(): Promise<LogEntry[]> {
@@ -40,6 +34,7 @@ async function readAllLogsFromFile(): Promise<LogEntry[]> {
 export async function writeLogToFile(
   user: string,
   event: string,
+  type: LogType,
   details?: string
 ): Promise<void> {
   try {
@@ -48,6 +43,7 @@ export async function writeLogToFile(
       id: logs.length > 0 ? Math.max(...logs.map((l) => l.id)) + 1 : 1,
       user,
       event,
+      type,
       time: new Date().toISOString(),
       details,
     };

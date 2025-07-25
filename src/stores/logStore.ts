@@ -1,18 +1,12 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-
-export interface LogEntry {
-  id: number;
-  user: string;
-  event: string;
-  time: string;
-  details?: string;
-}
+import { LogType, LogEntry } from "@/types/logs";
 
 interface QueuedLog {
   id: string;
   user: string;
   event: string;
+  type: LogType;
   details?: string;
   timestamp: number;
   status: "pending" | "sending" | "failed";
@@ -22,7 +16,12 @@ interface LogState {
   recentLogs: LogEntry[];
   queuedLogs: QueuedLog[];
 
-  addOptimisticLog: (user: string, event: string, details?: string) => void;
+  addOptimisticLog: (
+    user: string,
+    event: string,
+    type: LogType,
+    details?: string
+  ) => void;
   logPageVisit: (username: string, pathname: string) => void;
 }
 
@@ -32,11 +31,17 @@ export const useLogStore = create<LogState>()(
       recentLogs: [],
       queuedLogs: [],
 
-      addOptimisticLog: (user: string, event: string, details?: string) => {
+      addOptimisticLog: (
+        user: string,
+        event: string,
+        type: LogType,
+        details?: string
+      ) => {
         const optimisticLog: LogEntry = {
           id: Date.now(),
           user,
           event,
+          type,
           time: new Date().toISOString(),
           details,
         };
@@ -49,6 +54,7 @@ export const useLogStore = create<LogState>()(
           id: crypto.randomUUID(),
           user,
           event,
+          type,
           details,
           timestamp: Date.now(),
           status: "pending",
@@ -74,6 +80,7 @@ export const useLogStore = create<LogState>()(
               body: JSON.stringify({
                 user: queuedLog.user,
                 event: queuedLog.event,
+                type: queuedLog.type,
                 details: queuedLog.details,
               }),
             });
@@ -110,6 +117,7 @@ export const useLogStore = create<LogState>()(
         addOptimisticLog(
           username,
           `page_visit: ${pageName}`,
+          LogType.PAGE_VISIT,
           `Visited ${pathname}`
         );
       },

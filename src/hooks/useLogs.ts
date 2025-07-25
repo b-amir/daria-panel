@@ -2,7 +2,7 @@
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useMemo, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { LogEntry } from "@/services/logs.service";
+import { LogEntry } from "@/types/logs";
 import { useLogStore } from "@/stores/logStore";
 import { QUERY_KEYS } from "@/constants/queryKeys";
 

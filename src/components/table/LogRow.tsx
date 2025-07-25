@@ -52,8 +52,9 @@ export const LogRow = memo<LogRowProps>(({ log }) => {
   );
 
   return (
-    <>
+    <div role="row" className="flex items-center w-full h-full">
       <div
+        role="cell"
         className={`w-1/2 md:w-1/3 ${COMMON_STYLES.tableCell.base} ${COMMON_STYLES.tableCell.text.sm} ${COMMON_STYLES.tableCell.responsive.truncate}`}
       >
         <span className={COMMON_STYLES.tableCell.colors.primary}>
@@ -61,6 +62,7 @@ export const LogRow = memo<LogRowProps>(({ log }) => {
         </span>
       </div>
       <div
+        role="cell"
         className={`w-1/2 md:w-1/3 ${COMMON_STYLES.tableCell.base} ${COMMON_STYLES.tableCell.text.sm}`}
       >
         {log.details ? (
@@ -70,6 +72,7 @@ export const LogRow = memo<LogRowProps>(({ log }) => {
         )}
       </div>
       <div
+        role="cell"
         className={`hidden md:block md:w-1/3 ${COMMON_STYLES.tableCell.base} ${COMMON_STYLES.tableCell.text.xs} ${COMMON_STYLES.tableCell.colors.muted}`}
       >
         <div>
@@ -77,7 +80,7 @@ export const LogRow = memo<LogRowProps>(({ log }) => {
           <span className="md:hidden">{formattedTime.dateOnly}</span>
         </div>
       </div>
-    </>
+    </div>
   );
 });
 

@@ -6,48 +6,40 @@ import {
 } from "@/services/logs.service";
 import { LogType } from "@/types/logs";
 
-async function readAllLogsFromFile() {
-  const { promises: fs } = await import("fs");
-  const path = await import("path");
-  const LOGS_FILE = path.join(process.cwd(), "mockDB", "logs.json");
-
-  try {
-    const data = await fs.readFile(LOGS_FILE, "utf-8");
-    if (!data.trim()) {
-      return [];
-    }
-    const parsed = JSON.parse(data);
-    return Array.isArray(parsed) ? parsed : [];
-  } catch (error) {
-    if ((error as NodeJS.ErrnoException).code === "ENOENT") {
-      return [];
-    }
-    return [];
-  }
-}
-
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
-    const limit = parseInt(searchParams.get("limit") || "10");
-    const offset = parseInt(searchParams.get("offset") || "0");
 
-    if (searchParams.has("limit") || searchParams.has("offset")) {
-      const logs = await readPaginatedLogsFromFile(limit, offset);
-      const total = await getLogsCountFromFile();
-
-      return NextResponse.json({
-        logs,
-        total,
-        limit,
-        offset,
-        hasMore: offset + limit < total,
-      });
+    let limit = 20;
+    const limitParam = searchParams.get("limit");
+    if (limitParam) {
+      const parsedLimit = parseInt(limitParam);
+      if (!isNaN(parsedLimit) && parsedLimit > 0) {
+        limit = Math.min(parsedLimit, 100);
+      }
     }
 
-    const logs = await readAllLogsFromFile();
-    return NextResponse.json(logs);
-  } catch {
+    let offset = 0;
+    const offsetParam = searchParams.get("offset");
+    if (offsetParam) {
+      const parsedOffset = parseInt(offsetParam);
+      if (!isNaN(parsedOffset) && parsedOffset >= 0) {
+        offset = parsedOffset;
+      }
+    }
+
+    const logs = await readPaginatedLogsFromFile(limit, offset);
+    const total = await getLogsCountFromFile();
+
+    return NextResponse.json({
+      logs,
+      total,
+      limit,
+      offset,
+      hasMore: offset + limit < total,
+    });
+  } catch (error) {
+    console.error("Error fetching logs:", error);
     return NextResponse.json(
       { error: "Failed to fetch logs" },
       { status: 500 }
@@ -68,7 +60,8 @@ export async function POST(req: NextRequest) {
 
     await writeLogToFile(user, event, type as LogType, details);
     return NextResponse.json({ success: true });
-  } catch {
+  } catch (error) {
+    console.error("Error adding log:", error);
     return NextResponse.json({ error: "Failed to add log" }, { status: 500 });
   }
 }

@@ -1,106 +1,26 @@
 [
   {
     "id": 1,
-    "user": "test",
-    "event": "signup",
-    "type": "signup",
-    "time": "2025-07-25T22:39:34.557Z",
-    "details": "User account created"
+    "user": "test4",
+    "event": "page_visit: users",
+    "type": "page_visit",
+    "time": "2025-07-25T22:44:36.767Z",
+    "details": "Visited /users"
   },
   {
     "id": 2,
-    "user": "test",
-    "event": "login_failed",
-    "type": "login_failed",
-    "time": "2025-07-25T22:39:44.403Z",
-    "details": "Invalid credentials"
-  },
-  {
-    "id": 3,
-    "user": "test",
-    "event": "signup_failed",
-    "type": "signup_failed",
-    "time": "2025-07-25T22:40:18.958Z",
-    "details": "User already exists"
-  },
-  {
-    "id": 4,
-    "user": "test2",
-    "event": "signup",
-    "type": "signup",
-    "time": "2025-07-25T22:40:24.569Z",
-    "details": "User account created"
-  },
-  {
-    "id": 5,
-    "user": "test2",
-    "event": "login",
-    "type": "login",
-    "time": "2025-07-25T22:40:27.564Z",
-    "details": "User logged in successfully"
-  },
-  {
-    "id": 6,
-    "user": "test2",
-    "event": "page_visit: users",
-    "type": "page_visit",
-    "time": "2025-07-25T22:40:29.509Z",
-    "details": "Visited /users"
-  },
-  {
-    "id": 7,
-    "user": "test2",
-    "event": "page_visit: users",
-    "type": "page_visit",
-    "time": "2025-07-25T22:40:29.519Z",
-    "details": "Visited /users"
-  },
-  {
-    "id": 8,
-    "user": "test2",
-    "event": "profile_visit: Ervin Howell",
-    "type": "profile_visit",
-    "time": "2025-07-25T22:40:43.867Z",
-    "details": "Visited profile of Ervin Howell"
-  },
-  {
-    "id": 9,
-    "user": "test2",
+    "user": "test4",
     "event": "page_visit: logs",
     "type": "page_visit",
-    "time": "2025-07-25T22:40:47.593Z",
+    "time": "2025-07-25T22:44:38.244Z",
     "details": "Visited /logs"
   },
   {
-    "id": 10,
-    "user": "test2",
+    "id": 3,
+    "user": "test4",
     "event": "logout",
     "type": "logout",
-    "time": "2025-07-25T22:41:05.871Z",
+    "time": "2025-07-25T22:44:52.684Z",
     "details": "User logged out"
-  },
-  {
-    "id": 11,
-    "user": "test",
-    "event": "login",
-    "type": "login",
-    "time": "2025-07-25T22:41:13.776Z",
-    "details": "User logged in successfully"
-  },
-  {
-    "id": 12,
-    "user": "test",
-    "event": "page_visit: users",
-    "type": "page_visit",
-    "time": "2025-07-25T22:41:14.379Z",
-    "details": "Visited /users"
-  },
-  {
-    "id": 13,
-    "user": "test",
-    "event": "page_visit: users",
-    "type": "page_visit",
-    "time": "2025-07-25T22:41:14.408Z",
-    "details": "Visited /users"
   }
 ]

@@ -13,7 +13,9 @@ export function LoadingState({
     <div className={className}>
       <div className="flex flex-col items-center gap-4">
         <CircularProgress className="text-accent" />
-        <div className="text-lg text-gray-700">{message}</div>
+        <div className="text-sm text-gray-600 animate-pulse mt-2">
+          {message}
+        </div>
       </div>
     </div>
   );

@@ -17,15 +17,17 @@ export function ProfileInfoCard({
 }: ProfileInfoCardProps) {
   return (
     <div
-      className={`py-6 sm:py-8 border-b border-slate-200 last:border-b-0 ${className}`}
+      className={`bg-white rounded-md border border-slate-200 p-6 sm:p-8 shadow-sm hover:shadow-md transition-shadow duration-200 ${className}`}
     >
-      <div className="flex items-center space-x-3 mb-6 sm:mb-8">
+      <div className="flex items-center space-x-4 mb-8">
         <div
-          className={`flex items-center rounded-xs justify-center w-8 h-8 bg-gradient-to-r ${iconGradient}`}
+          className={`flex items-center rounded-lg justify-center w-10 h-10 bg-gradient-to-r ${iconGradient} shadow-sm`}
         >
-          <Icon className="w-4 h-4 text-white" />
+          <Icon className="w-5 h-5 text-white" />
         </div>
-        <h2 className="text-lg sm:text-xl font-bold text-slate-900">{title}</h2>
+        <h2 className="text-xl sm:text-2xl font-bold text-slate-900">
+          {title}
+        </h2>
       </div>
       {children}
     </div>

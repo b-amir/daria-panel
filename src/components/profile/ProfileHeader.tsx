@@ -13,16 +13,18 @@ export function ProfileHeader({ name }: ProfileHeaderProps) {
     <div
       className={`${COMMON_STYLES.pageContainer} ${COMMON_STYLES.heights.logoContainer} flex items-center border-b border-gray-300 shadow-sm bg-gradient-to-t from-white via-gray-100 to-gray-100`}
     >
-      <div className="space-y-2">
+      <div className="space-y-1">
         <button
           onClick={() => router.back()}
-          className="flex items-center gap-1 px-0 py-1.5 text-xs cursor-pointer text-gray-600 hover:text-gray-900 transition-colors"
+          className="flex items-center gap-1 px-0 py-2 text-sm cursor-pointer text-gray-600 hover:text-gray-900 group rounded-lg transition-all duration-200"
           aria-label="Go back"
         >
-          <BackIcon className="w-4 h-4" />
+          <BackIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-200" />
           Back
         </button>
-        <h1 className="text-xl md:text-2xl font-bold text-gray-900">{name}</h1>
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-900 leading-tight ">
+          {name}
+        </h1>
       </div>
     </div>
   );

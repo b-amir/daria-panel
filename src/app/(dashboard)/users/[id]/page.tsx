@@ -59,15 +59,15 @@ export default function UserProfilePage() {
       <ProfileHeader name={user.name} />
 
       <div className="relative">
-        <div className={`${COMMON_STYLES.pageContainer} w-full`}>
-          <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
-            <div className="xl:col-span-3 xl:border-r xl:border-slate-200 xl:pr-6 space-y-0">
+        <div className={`${COMMON_STYLES.pageContainer} w-full py-8`}>
+          <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-5 gap-8 lg:gap-10">
+            <div className="lg:col-span-2 xl:col-span-3 space-y-8">
               <ProfileInfoCard
                 title="Contact Information"
                 icon={MailIcon}
                 iconGradient="from-blue-500 to-blue-600"
               >
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
                   <InfoField
                     label="Email Address"
                     value={user.email}
@@ -99,13 +99,13 @@ export default function UserProfilePage() {
                 icon={MapPinIcon}
                 iconGradient="from-emerald-500 to-emerald-600"
               >
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
                   <InfoField label="Street" value={user.address.street} />
                   <InfoField label="Suite" value={user.address.suite} />
                   <InfoField label="City" value={user.address.city} />
                   <InfoField label="Zipcode" value={user.address.zipcode} />
                 </div>
-                <div className="mt-8 pt-6 border-t border-slate-200">
+                <div className="mt-8 pt-8 border-t border-slate-200">
                   <InfoField
                     label="Coordinates"
                     value={`${user.address.geo.lat}, ${user.address.geo.lng}`}
@@ -116,7 +116,7 @@ export default function UserProfilePage() {
               </ProfileInfoCard>
             </div>
 
-            <div className="xl:col-span-1 xl:pl-6 space-y-0">
+            <div className="lg:col-span-1 xl:col-span-2 space-y-8">
               <ProfileInfoCard
                 title="Company"
                 icon={BuildingIcon}
@@ -124,11 +124,11 @@ export default function UserProfilePage() {
               >
                 <div className="space-y-6">
                   <InfoField label="Company Name" value={user.company.name} />
-                  <div className="space-y-2">
+                  <div className="space-y-3">
                     <label className="text-xs font-semibold text-slate-600 uppercase tracking-wider">
                       Catch Phrase
                     </label>
-                    <blockquote className="text-sm font-medium text-slate-700 italic border-l-4 border-purple-400 pl-4 py-3">
+                    <blockquote className="text-sm font-medium text-slate-700 italic border-l-4 border-purple-400 pl-4 py-4 bg-purple-50/50 rounded-r-md">
                       &ldquo;{user.company.catchPhrase}&rdquo;
                     </blockquote>
                   </div>
@@ -141,7 +141,7 @@ export default function UserProfilePage() {
                 icon={RiInfoCardLine}
                 iconGradient="from-slate-500 to-slate-600"
               >
-                <div className="space-y-4">
+                <div className="space-y-1">
                   <QuickInfoItem label="User ID" value={`#${user.id}`} />
                   <QuickInfoItem
                     label="Domain"

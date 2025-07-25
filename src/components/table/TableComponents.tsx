@@ -1,6 +1,6 @@
 import { Typography, CircularProgress } from "@mui/material";
 import { ReactNode } from "react";
-import { FiRefreshCw } from "react-icons/fi";
+import { FiRefreshCw as RefreshIcon } from "react-icons/fi";
 import { Column } from "@/constants/tableConfigs";
 import { COMMON_STYLES } from "@/constants/commonStyles";
 
@@ -76,7 +76,7 @@ export const LoadMoreRow = ({
         </>
       ) : (
         <>
-          <FiRefreshCw className="w-4 h-4 mr-2" />
+          <RefreshIcon className="w-4 h-4 mr-2" />
           Load More
         </>
       )}

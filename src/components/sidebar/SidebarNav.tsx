@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { navItems } from "../../constants/navItems";
-import { FaChevronRight } from "react-icons/fa";
+import { FaChevronRight as ChevronRightIcon } from "react-icons/fa";
 
 export function SidebarNav() {
   const pathname = usePathname();
@@ -22,7 +22,7 @@ export function SidebarNav() {
             }`}
           >
             {item.label}
-            {isSelected && <FaChevronRight fontSize="small" />}
+            {isSelected && <ChevronRightIcon fontSize="small" />}
           </Link>
         );
       })}

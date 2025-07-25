@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Button } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { FiLogOut } from "react-icons/fi";
+import { FiLogOut as LogoutIcon } from "react-icons/fi";
 import { useAuthStore } from "@/stores/authStore";
 import { useLogStore } from "@/stores/logStore";
 import { LogType } from "@/types/logs";
@@ -45,7 +45,7 @@ export function UserBox({ username }: { username?: string }) {
         className="min-w-0 p-0 text-accent"
       >
         <span className="sr-only">logout</span>
-        <FiLogOut className="w-5 h-5" />
+        <LogoutIcon className="w-5 h-5" />
       </Button>
     </div>
   );

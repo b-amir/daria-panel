@@ -16,7 +16,7 @@ export const PersonRow = memo<PersonRowProps>(({ person }) => {
   }, [router, person.id]);
 
   return (
-    <>
+    <div role="row" className="flex items-center w-full h-full">
       <div
         className={`w-1/2 md:w-1/3 ${COMMON_STYLES.tableCell.base} ${COMMON_STYLES.tableCell.text.sm} ${COMMON_STYLES.tableCell.responsive.truncate} cursor-pointer hover:bg-gray-50 transition-colors duration-150`}
         onClick={handleClick}
@@ -46,7 +46,7 @@ export const PersonRow = memo<PersonRowProps>(({ person }) => {
           </span>
         </div>
       </div>
-    </>
+    </div>
   );
 });
 

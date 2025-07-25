@@ -7,8 +7,8 @@ export async function POST(req: NextRequest) {
 
   try {
     await addLogViaApi(username, "logout", LogType.LOGOUT, "User logged out");
-  } catch {
-    console.error("Failed to add logout log");
+  } catch (error) {
+    console.error("Failed to add logout log", error);
   }
 
   const response = NextResponse.json({ success: true });

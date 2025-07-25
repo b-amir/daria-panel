@@ -15,8 +15,8 @@ export async function POST(req: NextRequest) {
         LogType.LOGIN,
         "User logged in successfully"
       );
-    } catch {
-      console.error("Failed to add login log");
+    } catch (error) {
+      console.error("Failed to add login log", error);
     }
 
     const response = NextResponse.json({ success: true });
@@ -31,8 +31,8 @@ export async function POST(req: NextRequest) {
         LogType.LOGIN_FAILED,
         "Invalid credentials"
       );
-    } catch {
-      console.error("Failed to add login failed log");
+    } catch (error) {
+      console.error("Failed to add login failed log", error);
     }
 
     return NextResponse.json({ error: result.error }, { status: 401 });

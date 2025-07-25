@@ -15,8 +15,8 @@ export async function POST(req: NextRequest) {
         LogType.SIGNUP,
         "User account created"
       );
-    } catch {
-      console.error("Failed to add signup log");
+    } catch (error) {
+      console.error("Failed to add signup log", error);
     }
     return NextResponse.json({ success: true });
   } else {
@@ -27,8 +27,8 @@ export async function POST(req: NextRequest) {
         LogType.SIGNUP_FAILED,
         result.error || "Registration failed"
       );
-    } catch {
-      console.error("Failed to add signup failed log");
+    } catch (error) {
+      console.error("Failed to add signup failed log", error);
     }
     return NextResponse.json({ error: result.error }, { status: 400 });
   }

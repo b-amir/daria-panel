@@ -13,10 +13,8 @@ export function useUsers() {
     isLoading,
     error,
   } = useQuery({
-    queryKey: QUERY_KEYS.users,
+    queryKey: QUERY_KEYS.usersList(),
     queryFn: fetchUsers,
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    refetchOnWindowFocus: false,
   });
 
   useEffect(() => {

@@ -31,15 +31,16 @@ export function useLogs() {
 
   const { data, isLoading, error, fetchNextPage, isFetchingNextPage, refetch } =
     useInfiniteQuery({
-      queryKey: QUERY_KEYS.logs,
+      queryKey: QUERY_KEYS.logsInfinite(),
       queryFn: fetchLogsPage,
       initialPageParam: 0,
       getNextPageParam: (lastPage, allPages) => {
         if (!lastPage.hasMore) return undefined;
         return allPages.length;
       },
+      staleTime: 30 * 1000, // 30 seconds
       refetchOnWindowFocus: true,
-      staleTime: 30000, // 30 seconds
+      gcTime: 2 * 60 * 1000, // 2 minutes
     });
 
   const apiLogs = useMemo(() => {

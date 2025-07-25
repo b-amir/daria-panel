@@ -2,7 +2,6 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   compress: true,
-  output: "standalone",
 
   images: {
     formats: ["image/webp", "image/avif"],
@@ -28,38 +27,6 @@ const nextConfig: NextConfig = {
       "@tanstack/react-query",
     ],
     esmExternals: true,
-  },
-
-  webpack: (config, { dev, isServer }) => {
-    if (!dev) {
-      config.optimization.usedExports = true;
-      config.optimization.sideEffects = false;
-      config.optimization.splitChunks = {
-        chunks: "all",
-        cacheGroups: {
-          vendor: {
-            test: /[\\/]node_modules[\\/]/,
-            name: "vendors",
-            priority: 10,
-            reuseExistingChunk: true,
-          },
-          mui: {
-            test: /[\\/]node_modules[\\/]@mui[\\/]/,
-            name: "mui",
-            priority: 20,
-            reuseExistingChunk: true,
-          },
-          common: {
-            name: "common",
-            minChunks: 2,
-            chunks: "all",
-            enforce: true,
-          },
-        },
-      };
-    }
-
-    return config;
   },
 
   async headers() {

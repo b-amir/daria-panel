@@ -11,8 +11,8 @@ import { COMMON_STYLES } from "@/constants/commonStyles";
 
 export function UserBox({ username }: { username?: string }) {
   const router = useRouter();
-  const { logout } = useAuthStore();
-  const { addOptimisticLog } = useLogStore();
+  const logout = useAuthStore((state) => state.logout);
+  const addOptimisticLog = useLogStore((state) => state.addOptimisticLog);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const handleLogout = async () => {

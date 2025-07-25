@@ -15,14 +15,16 @@ const SUCCESS_REDIRECTS = {
 
 export function useAuth(mode: AuthMode) {
   const router = useRouter();
-  const { error, isSubmitting, submitAuth } = useAuthStore();
-  const { addOptimisticLog } = useLogStore();
+  const error = useAuthStore((state) => state.error);
+  const isSubmitting = useAuthStore((state) => state.isSubmitting);
+  const submitAuth = useAuthStore((state) => state.submitAuth);
+  const addOptimisticLog = useLogStore((state) => state.addOptimisticLog);
 
   const onSubmit = async (data: AuthFormData) => {
     await submitAuth(
       mode,
       data,
-      (authMode) => {
+      (authMode: AuthMode) => {
         router.push(SUCCESS_REDIRECTS[authMode]);
         if (authMode === "login") {
           router.refresh();
@@ -36,11 +38,13 @@ export function useAuth(mode: AuthMode) {
 }
 
 export function useAuthState() {
-  const { user, initializeAuth } = useAuthStore();
+  const user = useAuthStore((state) => state.user);
+  const initializeAuth = useAuthStore((state) => state.initializeAuth);
 
   useEffect(() => {
     initializeAuth();
-  }, [initializeAuth]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   usePageVisitLogger(user?.username);
 

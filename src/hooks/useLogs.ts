@@ -27,7 +27,7 @@ async function fetchLogsPage({ pageParam = 0 }): Promise<LogsResponse> {
 
 export function useLogs() {
   const queryClient = useQueryClient();
-  const { recentLogs } = useLogStore();
+  const recentLogs = useLogStore((state) => state.recentLogs);
 
   const { data, isLoading, error, fetchNextPage, isFetchingNextPage, refetch } =
     useInfiniteQuery({
@@ -119,10 +119,11 @@ export function useLogs() {
 
 export function usePageVisitLogger(username?: string) {
   const pathname = usePathname();
-  const { logPageVisit } = useLogStore();
+  const logPageVisit = useLogStore((state) => state.logPageVisit);
 
   useEffect(() => {
     if (!username) return;
     logPageVisit(username, pathname);
-  }, [username, pathname, logPageVisit]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [username, pathname]);
 }

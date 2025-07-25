@@ -1,11 +1,13 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { navItems } from "../../constants/navItems";
+import { navItems } from "@/constants/navItems";
 import { FaChevronRight as ChevronRightIcon } from "react-icons/fa";
+import { useMobileSidebarStore } from "@/stores/mobileSidebarStore";
 
 export function SidebarNav() {
   const pathname = usePathname();
+  const close = useMobileSidebarStore((state) => state.close);
 
   return (
     <nav className="flex flex-col gap-2 mt-4 flex-1">
@@ -15,13 +17,17 @@ export function SidebarNav() {
           <Link
             key={item.href}
             href={item.href}
+            onClick={close}
             className={`px-4 py-2 rounded text-sm font-semibold transition-colors flex items-center justify-between ${
               isSelected
                 ? "bg-accent/10 text-accent"
                 : "hover:bg-gray-100 text-gray-800"
             }`}
           >
-            {item.label}
+            <div className="flex items-center gap-2">
+              {item.icon && <item.icon className="w-4 h-4" />}
+              <span>{item.label}</span>
+            </div>
             {isSelected && <ChevronRightIcon fontSize="small" />}
           </Link>
         );

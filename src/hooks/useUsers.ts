@@ -6,7 +6,9 @@ import { useUserStore } from "@/stores/userStore";
 import { QUERY_KEYS } from "@/constants/queryKeys";
 
 export function useUsers() {
-  const { users, optimisticUsers, setUsers } = useUserStore();
+  const users = useUserStore((state) => state.users);
+  const optimisticUsers = useUserStore((state) => state.optimisticUsers);
+  const setUsers = useUserStore((state) => state.setUsers);
 
   const {
     data: apiUsers = [],

@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
+import { immer } from "zustand/middleware/immer";
 import { LogType, LogEntry } from "@/types/logs";
 
 interface QueuedLog {
@@ -23,11 +24,12 @@ interface LogState {
     details?: string
   ) => void;
   logPageVisit: (username: string, pathname: string) => void;
+  logProfileVisit: (username: string, profileName: string) => void;
 }
 
 export const useLogStore = create<LogState>()(
   persist(
-    (set) => ({
+    immer((set, get) => ({
       recentLogs: [],
       queuedLogs: [],
 
@@ -46,9 +48,11 @@ export const useLogStore = create<LogState>()(
           details,
         };
 
-        set((state) => ({
-          recentLogs: [optimisticLog, ...state.recentLogs].slice(0, 50),
-        }));
+        // ✅ Using Immer for immutable updates - better performance
+        set((draft) => {
+          draft.recentLogs.unshift(optimisticLog);
+          draft.recentLogs = draft.recentLogs.slice(0, 50);
+        });
 
         const queuedLog: QueuedLog = {
           id: crypto.randomUUID(),
@@ -60,18 +64,19 @@ export const useLogStore = create<LogState>()(
           status: "pending",
         };
 
-        set((state) => ({
-          queuedLogs: [...state.queuedLogs, queuedLog],
-        }));
+        set((draft) => {
+          draft.queuedLogs.push(queuedLog);
+        });
 
         const sendLog = async () => {
-          set((state) => ({
-            queuedLogs: state.queuedLogs.map((log) =>
-              log.id === queuedLog.id
-                ? { ...log, status: "sending" as const }
-                : log
-            ),
-          }));
+          set((draft) => {
+            const log = draft.queuedLogs.find(
+              (log: QueuedLog) => log.id === queuedLog.id
+            );
+            if (log) {
+              log.status = "sending";
+            }
+          });
 
           try {
             await fetch("/api/logs", {
@@ -85,20 +90,24 @@ export const useLogStore = create<LogState>()(
               }),
             });
 
-            set((state) => ({
-              queuedLogs: state.queuedLogs.filter(
-                (log) => log.id !== queuedLog.id
-              ),
-            }));
+            set((draft) => {
+              const index = draft.queuedLogs.findIndex(
+                (log: QueuedLog) => log.id === queuedLog.id
+              );
+              if (index !== -1) {
+                draft.queuedLogs.splice(index, 1);
+              }
+            });
           } catch (error) {
             console.error("Failed to send log:", error);
-            set((state) => ({
-              queuedLogs: state.queuedLogs.map((log) =>
-                log.id === queuedLog.id
-                  ? { ...log, status: "failed" as const }
-                  : log
-              ),
-            }));
+            set((draft) => {
+              const log = draft.queuedLogs.find(
+                (log: QueuedLog) => log.id === queuedLog.id
+              );
+              if (log) {
+                log.status = "failed";
+              }
+            });
           }
         };
 
@@ -108,12 +117,19 @@ export const useLogStore = create<LogState>()(
       logPageVisit: (username: string, pathname: string) => {
         const getPageName = (path: string) => {
           const segments = path.split("/").filter(Boolean);
+          if (segments[0] === "users" && segments.length > 1) {
+            return null;
+          }
           return segments[segments.length - 1] || "home";
         };
 
         const pageName = getPageName(pathname);
 
-        const { addOptimisticLog } = useLogStore.getState();
+        if (!pageName) {
+          return;
+        }
+
+        const { addOptimisticLog } = get();
         addOptimisticLog(
           username,
           `page_visit: ${pageName}`,
@@ -121,7 +137,28 @@ export const useLogStore = create<LogState>()(
           `Visited ${pathname}`
         );
       },
-    }),
+
+      logProfileVisit: (username: string, profileName: string) => {
+        const { addOptimisticLog, queuedLogs, recentLogs } = get();
+
+        const event = `profile_visit: ${profileName}`;
+
+        const isAlreadyLogged =
+          recentLogs.some((log: LogEntry) => log.event === event) ||
+          queuedLogs.some((log) => log.event === event);
+
+        if (isAlreadyLogged) {
+          return;
+        }
+
+        addOptimisticLog(
+          username,
+          event,
+          LogType.PROFILE_VISIT,
+          `Visited profile of ${profileName}`
+        );
+      },
+    })),
     {
       name: "log-storage",
       storage: createJSONStorage(() => localStorage),

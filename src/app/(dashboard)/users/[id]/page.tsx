@@ -1,4 +1,5 @@
 "use client";
+
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import { fetchUserById } from "@/services/users.service";
@@ -36,6 +37,12 @@ export default function UserProfilePage() {
     queryFn: () => fetchUserById(userId),
     enabled: !!userId,
   });
+
+  useEffect(() => {
+    if (user) {
+      document.title = `Daria - ${user.name}`;
+    }
+  }, [user]);
 
   const logProfileVisit = useLogStore((state) => state.logProfileVisit);
   const authUser = useAuthStore((state) => state.user);

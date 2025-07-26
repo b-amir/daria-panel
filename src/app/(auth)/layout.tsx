@@ -1,4 +1,10 @@
 import Image from "next/image";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Authentication",
+  description: "Authentication for Daria Panel",
+};
 
 export default function AuthLayout({
   children,

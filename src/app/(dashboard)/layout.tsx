@@ -2,6 +2,12 @@ import { Sidebar } from "@/components/sidebar/Sidebar";
 import { DashboardClientWrapper } from "@/components/DashboardClientWrapper";
 import { MobileHeader } from "@/components/sidebar/MobileHeader";
 import { cookies } from "next/headers";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Dashboard",
+  description: "Dashboard for Daria",
+};
 
 export default async function DashboardLayout({
   children,

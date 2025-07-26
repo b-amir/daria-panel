@@ -6,7 +6,10 @@ import { QueryProvider } from "@/components/QueryProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Daria Panel",
+  title: {
+    default: "Daria Panel",
+    template: "Daria - %s",
+  },
   description: "Admin panel for Daria",
 };
 

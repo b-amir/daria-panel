@@ -46,10 +46,8 @@ export function useLogs() {
     return data?.pages.flatMap((page: LogsResponse) => page.logs) || [];
   }, [data]);
 
-  const allLogs = useMemo(() => {
-    if (recentLogs.length === 0) {
-      return apiLogs;
-    }
+  const filteredOptimisticLogs = useMemo(() => {
+    if (recentLogs.length === 0) return [];
 
     const currentTime = Date.now();
     const oneMinuteAgo = currentTime - 60000;
@@ -59,21 +57,17 @@ export function useLogs() {
       return logTime > oneMinuteAgo;
     });
 
-    if (recentOptimisticLogs.length === 0) {
-      return apiLogs;
-    }
+    if (recentOptimisticLogs.length === 0) return [];
 
     const apiLogsWithTimestamps = apiLogs.map((log) => ({
       ...log,
       timestamp: new Date(log.time).getTime(),
     }));
 
-    const filteredOptimistic = recentOptimisticLogs.filter((optimisticLog) => {
+    return recentOptimisticLogs.filter((optimisticLog) => {
       const optimisticTime = new Date(optimisticLog.time).getTime();
-
       return !apiLogsWithTimestamps.some((apiLog) => {
         const timeDiff = Math.abs(optimisticTime - apiLog.timestamp);
-
         return (
           apiLog.user === optimisticLog.user &&
           apiLog.event === optimisticLog.event &&
@@ -81,8 +75,14 @@ export function useLogs() {
         );
       });
     });
+  }, [recentLogs, apiLogs]);
 
-    const combinedLogs = [...filteredOptimistic, ...apiLogs];
+  const allLogs = useMemo(() => {
+    if (filteredOptimisticLogs.length === 0) {
+      return apiLogs;
+    }
+
+    const combinedLogs = [...filteredOptimisticLogs, ...apiLogs];
 
     const sortedLogs = combinedLogs.sort((a, b) => {
       const aTime =
@@ -93,14 +93,18 @@ export function useLogs() {
     });
 
     const pagesLoaded = data?.pages.length || 0;
-    const maxRows = pagesLoaded * 20;
+    if (pagesLoaded === 0) {
+      return sortedLogs.slice(0, 20);
+    }
 
+    const maxRows = pagesLoaded * 20;
     return sortedLogs.slice(0, maxRows);
-  }, [recentLogs, apiLogs, data?.pages.length]);
+  }, [filteredOptimisticLogs, apiLogs, data?.pages.length]);
 
   const totalCount = useMemo(() => {
-    return data?.pages[0]?.total || 0;
-  }, [data]);
+    const baseTotal = data?.pages[0]?.total || 0;
+    return baseTotal + filteredOptimisticLogs.length;
+  }, [data, filteredOptimisticLogs]);
 
   const loadNextPage = async () => {
     if (data?.pages && data.pages[data.pages.length - 1]?.hasMore) {

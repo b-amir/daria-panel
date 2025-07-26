@@ -22,6 +22,17 @@ export async function apiRequest<T>(
   url: string,
   options: RequestInit = {}
 ): Promise<T> {
+  const isServer = typeof window === "undefined";
+  let absoluteUrl = url;
+
+  if (isServer && url.startsWith("/")) {
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
+    if (!baseUrl) {
+      throw new Error("Missing NEXT_PUBLIC_APP_URL environment variable");
+    }
+    absoluteUrl = `${baseUrl}${url}`;
+  }
+
   const config: RequestInit = {
     headers: {
       "Content-Type": "application/json",
@@ -31,7 +42,7 @@ export async function apiRequest<T>(
   };
 
   try {
-    const response = await fetch(url, config);
+    const response = await fetch(absoluteUrl, config);
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
